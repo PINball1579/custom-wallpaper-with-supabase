@@ -1,49 +1,33 @@
-import pg from 'pg';
+import { createClient } from '@supabase/supabase-js';
 
-// Create PostgreSQL connection pool optimized for Supabase
-const connectionString = process.env.POSTGRES_URL || 
-  `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_ANON_KEY!;
 
-const pool = new pg.Pool({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  max: 5,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 10000,
-});
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Log connection config (without sensitive data) on startup
-console.log('🔧 Database Config:', {
-  usingConnectionString: !!process.env.POSTGRES_URL,
-  host: process.env.DB_HOST || 'from connection string',
-  port: process.env.DB_PORT || '5432',
-  database: process.env.DB_NAME || 'from connection string',
-  hasPassword: !!process.env.DB_PASSWORD || !!process.env.POSTGRES_URL,
-  connectionString: connectionString.replace(/:[^:@]+@/, ':****@'), // Hide password in logs
+console.log('🔧 Supabase Config:', {
+  url: supabaseUrl,
+  hasKey: !!supabaseKey,
 });
 
 // Test database connection
-pool.on('connect', () => {
-  console.log('✅ Connected to PostgreSQL database');
-});
-
-pool.on('error', (err) => {
-  console.error('❌ Unexpected error on idle client', err);
-});
-
-// Test connection function with better error handling
 export async function testConnection() {
   try {
-    const result = await pool.query('SELECT NOW() as current_time');
-    console.log('✅ Database connection test successful:', result.rows[0]);
+    const { data, error } = await supabase
+      .from('users')
+      .select('count')
+      .limit(1);
+    
+    if (error) throw error;
+    
+    console.log('✅ Supabase connection test successful');
     return true;
   } catch (error: any) {
-    console.error('❌ Database connection test failed:', {
+    console.error('❌ Supabase connection test failed:', {
       message: error.message,
-      code: error.code,
-      detail: error.detail,
+      details: error.details,
       hint: error.hint,
     });
     return false;
@@ -78,102 +62,126 @@ export interface WallpaperDownload {
 
 // User operations
 export async function createUser(user: User): Promise<any> {
-  const query = `
-    INSERT INTO users (line_uuid, title, first_name, last_name, gender, date_of_birth, email, phone_number)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-    ON CONFLICT (line_uuid) 
-    DO UPDATE SET 
-      title = $2,
-      first_name = $3,
-      last_name = $4,
-      gender = $5,
-      date_of_birth = $6,
-      email = $7,
-      phone_number = $8,
-      updated_at = CURRENT_TIMESTAMP
-    RETURNING *
-  `;
-  
-  const values = [
-    user.line_uuid,
-    user.title,
-    user.first_name,
-    user.last_name,
-    user.gender,
-    user.date_of_birth,
-    user.email,
-    user.phone_number
-  ];
+  const { data, error } = await supabase
+    .from('users')
+    .upsert({
+      line_uuid: user.line_uuid,
+      title: user.title,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      gender: user.gender,
+      date_of_birth: user.date_of_birth,
+      email: user.email,
+      phone_number: user.phone_number,
+      updated_at: new Date().toISOString(),
+    }, {
+      onConflict: 'line_uuid',
+    })
+    .select()
+    .single();
 
-  const result = await pool.query(query, values);
-  return result.rows[0];
+  if (error) throw error;
+  return data;
 }
 
 export async function getUserByUUID(lineUUID: string): Promise<any> {
-  const query = 'SELECT * FROM users WHERE line_uuid = $1';
-  const result = await pool.query(query, [lineUUID]);
-  return result.rows[0] || null;
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('line_uuid', lineUUID)
+    .single();
+
+  if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows returned
+  return data || null;
 }
 
 // OTP operations
 export async function createOTP(phoneNumber: string, otpToken: string): Promise<any> {
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
   
-  const query = `
-    INSERT INTO otp_verifications (phone_number, otp_token, expires_at)
-    VALUES ($1, $2, $3)
-    RETURNING *
-  `;
-  
-  const result = await pool.query(query, [phoneNumber, otpToken, expiresAt]);
-  return result.rows[0];
+  const { data, error } = await supabase
+    .from('otp_verifications')
+    .insert({
+      phone_number: phoneNumber,
+      otp_token: otpToken,
+      expires_at: expiresAt.toISOString(),
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
 }
 
 export async function getOTPByPhone(phoneNumber: string): Promise<any> {
-  const query = `
-    SELECT * FROM otp_verifications 
-    WHERE phone_number = $1 
-    AND expires_at > NOW()
-    AND verified = FALSE
-    ORDER BY created_at DESC
-    LIMIT 1
-  `;
-  
-  const result = await pool.query(query, [phoneNumber]);
-  return result.rows[0] || null;
+  const { data, error } = await supabase
+    .from('otp_verifications')
+    .select('*')
+    .eq('phone_number', phoneNumber)
+    .gt('expires_at', new Date().toISOString())
+    .eq('verified', false)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error && error.code !== 'PGRST116') throw error;
+  return data || null;
 }
 
 export async function markOTPAsVerified(id: number): Promise<void> {
-  const query = 'UPDATE otp_verifications SET verified = TRUE WHERE id = $1';
-  await pool.query(query, [id]);
+  const { error } = await supabase
+    .from('otp_verifications')
+    .update({ verified: true })
+    .eq('id', id);
+
+  if (error) throw error;
 }
 
 // Wallpaper download tracking
 export async function incrementWallpaperDownload(wallpaperId: string): Promise<any> {
-  const query = `
-    INSERT INTO wallpaper_downloads (wallpaper_id, download_count)
-    VALUES ($1, 1)
-    ON CONFLICT (wallpaper_id) 
-    DO UPDATE SET 
-      download_count = wallpaper_downloads.download_count + 1,
-      updated_at = CURRENT_TIMESTAMP
-    RETURNING *
-  `;
-  
-  const result = await pool.query(query, [wallpaperId]);
-  return result.rows[0];
+  // First, try to get existing record
+  const { data: existing } = await supabase
+    .from('wallpaper_downloads')
+    .select('*')
+    .eq('wallpaper_id', wallpaperId)
+    .single();
+
+  if (existing) {
+    // Update existing record
+    const { data, error } = await supabase
+      .from('wallpaper_downloads')
+      .update({
+        download_count: existing.download_count + 1,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('wallpaper_id', wallpaperId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } else {
+    // Insert new record
+    const { data, error } = await supabase
+      .from('wallpaper_downloads')
+      .insert({
+        wallpaper_id: wallpaperId,
+        download_count: 1,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
 }
 
 export async function getWallpaperStats(): Promise<any[]> {
-  const query = `
-    SELECT wallpaper_id, download_count 
-    FROM wallpaper_downloads 
-    ORDER BY wallpaper_id
-  `;
-  
-  const result = await pool.query(query);
-  return result.rows;
-}
+  const { data, error } = await supabase
+    .from('wallpaper_downloads')
+    .select('wallpaper_id, download_count')
+    .order('wallpaper_id');
 
-// Export pool for custom queries if needed
-export { pool };
+  if (error) throw error;
+  return data || [];
+}
