@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-import { existsSync } from 'fs';
+import { put } from '@vercel/blob';
 
 /**
- * Upload generated wallpaper to public directory
+ * Upload generated wallpaper to Vercel Blob Storage
  * This makes it accessible via HTTPS URL for LINE
  */
 export async function POST(req: NextRequest) {
@@ -18,36 +16,34 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create generated directory if it doesn't exist
-    const generatedDir = path.join(process.cwd(), 'public', 'generated');
-    if (!existsSync(generatedDir)) {
-      await mkdir(generatedDir, { recursive: true });
-    }
+    console.log('📤 Uploading image for user:', lineUserId);
+
+    // Convert base64 to buffer
+    const buffer = Buffer.from(imageBuffer, 'base64');
 
     // Generate unique filename
     const timestamp = Date.now();
     const filename = `wallpaper_${lineUserId}_${timestamp}.jpg`;
-    const filepath = path.join(generatedDir, filename);
 
-    // Convert base64 to buffer and save
-    const buffer = Buffer.from(imageBuffer, 'base64');
-    await writeFile(filepath, buffer);
+    // Upload to Vercel Blob
+    const blob = await put(filename, buffer, {
+      access: 'public',
+      contentType: 'image/jpeg',
+    });
 
-    // Generate public URL
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || req.headers.get('origin') || '';
-    const publicUrl = `${baseUrl}/generated/${filename}`;
-
-    console.log('✅ Image saved to:', filepath);
-    console.log('🔗 Public URL:', publicUrl);
+    console.log('✅ Image uploaded to:', blob.url);
 
     return NextResponse.json({
       success: true,
-      imageUrl: publicUrl
+      imageUrl: blob.url
     });
-  } catch (error) {
-    console.error('Error uploading image:', error);
+  } catch (error: any) {
+    console.error('❌ Error uploading image:', error);
     return NextResponse.json(
-      { error: 'Failed to upload image' },
+      { 
+        error: 'Failed to upload image',
+        details: error.message 
+      },
       { status: 500 }
     );
   }

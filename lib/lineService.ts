@@ -8,6 +8,19 @@ const LINE_MESSAGING_API = 'https://api.line.me/v2/bot/message/push';
  */
 export async function sendImageUrlToLine(userId: string, imageUrl: string, previewUrl?: string): Promise<boolean> {
   try {
+    console.log('📤 Sending image to LINE:', { userId, imageUrl });
+
+    // Validate inputs
+    if (!process.env.LINE_CHANNEL_ACCESS_TOKEN) {
+      console.error('❌ LINE_CHANNEL_ACCESS_TOKEN not configured');
+      return false;
+    }
+
+    if (!imageUrl.startsWith('https://')) {
+      console.error('❌ Image URL must be HTTPS:', imageUrl);
+      return false;
+    }
+
     const message = {
       to: userId,
       messages: [
@@ -19,55 +32,31 @@ export async function sendImageUrlToLine(userId: string, imageUrl: string, previ
       ]
     };
 
-    const response = await axios.post(LINE_MESSAGING_API, message, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
-      }
-    });
-
-    return response.status === 200;
-  } catch (error: any) {
-    console.error('Error sending image URL to LINE:', error.response?.data || error.message);
-    return false;
-  }
-}
-
-/**
- * Send image to LINE using base64 data
- * This uploads the image data directly
- */
-export async function sendImageBase64ToLine(userId: string, base64Image: string): Promise<boolean> {
-  try {
-    // Remove data URL prefix if present
-    const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
-    
-    // Convert base64 to buffer
-    const imageBuffer = Buffer.from(base64Data, 'base64');
-    
-    // LINE Messaging API requires external URLs
-    // We need to send as a different message type or host the image
-    // For now, we'll send a text message with a download instruction
-    const message = {
-      to: userId,
-      messages: [
-        {
-          type: 'text',
-          text: '🎨 Your custom DIOR wallpaper is ready!\n\nPlease download it from the browser using the download button.'
-        }
-      ]
-    };
+    console.log('📨 Sending LINE message:', JSON.stringify(message, null, 2));
 
     const response = await axios.post(LINE_MESSAGING_API, message, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
-      }
+      },
+      timeout: 30000 // 30 second timeout
     });
 
+    console.log('✅ LINE API Response:', response.status, response.statusText);
     return response.status === 200;
   } catch (error: any) {
-    console.error('Error sending base64 image to LINE:', error.response?.data || error.message);
+    console.error('❌ Error sending image URL to LINE:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message
+    });
+    
+    // Log specific LINE API errors
+    if (error.response?.data) {
+      console.error('LINE API Error Details:', JSON.stringify(error.response.data, null, 2));
+    }
+    
     return false;
   }
 }
@@ -75,14 +64,21 @@ export async function sendImageBase64ToLine(userId: string, base64Image: string)
 /**
  * Send text message to LINE with wallpaper ready notification
  */
-export async function sendWallpaperNotification(userId: string): Promise<boolean> {
+export async function sendWallpaperNotification(userId: string, imageUrl?: string): Promise<boolean> {
   try {
+    if (!process.env.LINE_CHANNEL_ACCESS_TOKEN) {
+      console.error('❌ LINE_CHANNEL_ACCESS_TOKEN not configured');
+      return false;
+    }
+
     const message = {
       to: userId,
       messages: [
         {
           type: 'text',
-          text: '🎨 Your custom wallpaper is ready!\n\nYou can download it from the browser, or use the "Send to LINE" button to receive it here.'
+          text: imageUrl 
+            ? `🎨 Your custom DIOR wallpaper is ready!\n\n${imageUrl}`
+            : '🎨 Your custom wallpaper is ready! You can download it from the browser.'
         }
       ]
     };
@@ -91,12 +87,13 @@ export async function sendWallpaperNotification(userId: string): Promise<boolean
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
-      }
+      },
+      timeout: 30000
     });
 
     return response.status === 200;
   } catch (error: any) {
-    console.error('Error sending notification to LINE:', error.response?.data || error.message);
+    console.error('❌ Error sending notification to LINE:', error.response?.data || error.message);
     return false;
   }
 }
