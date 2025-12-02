@@ -1,52 +1,4 @@
-import { createCanvas, loadImage, registerFont } from 'canvas';
-import path from 'path';
-
-// Font registration flag
-let fontRegistered = false;
-
-// Register fonts on module load (server-side only)
-function registerFonts() {
-  if (fontRegistered) return;
-  
-  try {
-    // Dynamic import of fs to avoid bundling issues
-    const fs = require('fs');
-    
-    // Try to register system fonts
-    const fontsPath = path.join(process.cwd(), 'public', 'fonts');
-    
-    // Common font paths to try
-    const fontPaths = [
-      // Try custom fonts first
-      { path: path.join(fontsPath, 'Arial.ttf'), family: 'CustomFont' },
-      { path: path.join(fontsPath, 'Roboto-Bold.ttf'), family: 'CustomFont' },
-      // Try system fonts (Linux/Unix)
-      { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', family: 'CustomFont' },
-      { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', family: 'CustomFont' },
-      { path: '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', family: 'CustomFont' },
-      { path: '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', family: 'CustomFont' },
-    ];
-
-    for (const font of fontPaths) {
-      try {
-        if (fs.existsSync(font.path)) {
-          registerFont(font.path, { family: font.family });
-          console.log('✅ Font registered from:', font.path);
-          fontRegistered = true;
-          break;
-        }
-      } catch (e) {
-        // Continue to next font
-      }
-    }
-
-    if (!fontRegistered) {
-      console.warn('⚠️ No custom font registered, using canvas default');
-    }
-  } catch (error) {
-    console.error('❌ Error registering fonts:', error);
-  }
-}
+import { createCanvas, loadImage } from 'canvas';
 
 export interface WallpaperConfig {
   wallpaperId: string;
@@ -59,12 +11,13 @@ export interface WallpaperConfig {
 
 export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer> {
   try {
-    // Register fonts before generating (server-side only)
-    registerFonts();
+    // Load base wallpaper image from public URL
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-app.vercel.app';
+    const wallpaperUrl = `${baseUrl}/wallpapers/${config.wallpaperId}.jpg`;
     
-    // Load base wallpaper image
-    const wallpaperPath = path.join(process.cwd(), 'public', 'wallpapers', `${config.wallpaperId}.jpg`);
-    const image = await loadImage(wallpaperPath);
+    console.log('📸 Loading wallpaper from:', wallpaperUrl);
+    
+    const image = await loadImage(wallpaperUrl);
 
     // Create canvas with same dimensions as wallpaper
     const canvas = createCanvas(image.width, image.height);
@@ -73,27 +26,19 @@ export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer
     // Draw base wallpaper
     ctx.drawImage(image, 0, 0);
 
-    // Configure text style with fallback fonts
-    // Use CustomFont if registered, otherwise fall back to sans-serif
-    ctx.font = `bold ${config.fontSize}px CustomFont, "DejaVu Sans", "Liberation Sans", sans-serif`;
+    // Configure text style (using system fonts, no registerFont needed)
+    ctx.font = `bold ${config.fontSize}px Arial, sans-serif`;
     ctx.fillStyle = config.fontColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Add stronger text shadow for better visibility
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-    ctx.shadowBlur = 15;
-    ctx.shadowOffsetX = 3;
-    ctx.shadowOffsetY = 3;
+    // Add text shadow for better visibility
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
 
     // Draw custom text
-    ctx.fillText(config.customText, config.textX, config.textY);
-
-    // Draw text again without shadow for crispness (double rendering)
-    ctx.shadowColor = 'transparent';
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
     ctx.fillText(config.customText, config.textX, config.textY);
 
     // Convert to buffer

@@ -5,6 +5,9 @@ import { put } from '@vercel/blob';
  * Upload generated wallpaper using Vercel Blob Storage
  * This works with Vercel serverless functions (no filesystem access needed)
  */
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const { imageBuffer, lineUserId } = await req.json();

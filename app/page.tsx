@@ -22,11 +22,11 @@ export default function Home() {
         if (!mounted) return;
 
         // Check if opened in LINE
-        if (!liff.isInClient()) {
-          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้นเท่านั้น');
-          window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
-          return;
-        }
+        // if (!liff.isInClient()) {
+        //   alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้นเท่านั้น');
+        //   window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
+        //   return;
+        // }
 
         // Check if user is logged in
         if (!liff.isLoggedIn()) {
@@ -129,19 +129,31 @@ export default function Home() {
             
             {/* Wallpaper Preview Image */}
             <div className="my-8 bg-gray-100 p-4 rounded-lg">
-              <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md flex items-center justify-center">
-                <p className="text-gray-400">Wallpaper Preview</p>
+              <div className="aspect-[9/16] max-w-xs mx-auto bg-gradient-to-b from-green-700 to-green-900 rounded-lg shadow-md flex items-center justify-center relative overflow-hidden">
+                {/* Forest texture background */}
+                <div className="absolute inset-0 opacity-40">
+                  <div className="w-full h-full" style={{
+                    backgroundImage: `repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 10px,
+                      rgba(0,0,0,.1) 10px,
+                      rgba(0,0,0,.1) 20px
+                    )`
+                  }}></div>
+                </div>
+                {/* Sample text */}
+                <p className="text-white text-2xl font-bold relative z-10 px-4">YOUR NAME</p>
               </div>
-              <p className="mt-4 text-sm font-medium">CUSTOM NAME</p>
+              <p className="mt-4 text-sm font-medium text-gray-700">CUSTOM NAME</p>
             </div>
 
-            <div className="mb-8 text-sm text-gray-600 space-y-2">
-              <p>เพื่อให้เกมการออกแบบวอลเปเปอร์ในแบบของคุณสำเร็จ</p>
-              <p>Wallpaper ในรูปแบบของคุณ</p>
-              <p>กรุณาให้ข้อมูลแก่ผู้จัดงานเพื่อเก็บ</p>
-              <p>เพื่อแจกภาพให้ Dior เมื่อสร้างสิ้นของที่คุณ</p>
-              <p>และการติดตามผลของงานนี้ในอนาคต</p>
-              <p>กรุณาตรวจสอบให้แน่ใจก่อนกดส่ง</p>
+            <div className="mb-8 text-sm text-gray-600 space-y-2 leading-relaxed">
+              <p>To successfully design your personalized wallpaper,</p>
+              <p>please provide your information to the organizer</p>
+              <p>so we can send you the final wallpaper image</p>
+              <p>and follow up on future events.</p>
+              <p>Please verify all information before submitting.</p>
             </div>
 
             <button
