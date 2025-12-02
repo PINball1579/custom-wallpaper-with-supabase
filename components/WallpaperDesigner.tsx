@@ -179,7 +179,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             maxLength={20}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
           />
-          <p className="text-sm text-gray-500 mt-1">{customText.length}/20 characters</p>
+          <p className="text-sm text-gray-500 mt-1">{customText.length}/10 characters</p>
         </div>
 
         {/* Error Message */}
