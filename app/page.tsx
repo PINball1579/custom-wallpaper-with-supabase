@@ -131,7 +131,7 @@ export default function Home() {
             <div className="my-8 bg-gray-100 p-4 rounded-lg">
               <div className="aspect-[9/16] max-w-xs mx-auto rounded-lg shadow-md overflow-hidden relative">
                 <img 
-                  src="/example-wallpaper.jpg" 
+                  src="./wallpapers/example-wallpaper.jpg" 
                   alt="Example Wallpaper" 
                   className="w-full h-full object-cover"
                 />
