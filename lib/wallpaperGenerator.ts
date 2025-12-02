@@ -76,10 +76,10 @@ export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer
 // Predefined wallpaper configurations
 export const WALLPAPER_CONFIGS = {
   wallpaper_1: {
-    fontSize: 120,
+    fontSize: 100,
     fontColor: '#586971',
     textX: 560, // Center of 1080px width
-    textY: 1400, // Bottom third of 2400px height
+    textY: 1270, // Bottom third of 2400px height
   },
   wallpaper_2: {
     fontSize: 70,
