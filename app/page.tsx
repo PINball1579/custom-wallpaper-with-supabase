@@ -129,14 +129,14 @@ export default function Home() {
             
             {/* Wallpaper Preview Image */}
             <div className="my-8 bg-gray-100 p-4 rounded-lg">
-              <div className="aspect-[9/16] max-w-xs mx-auto rounded-lg shadow-md overflow-hidden relative">
+              <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
                 <img 
-                  src="../public/example-wallpaper.jpg" 
+                  src="/example_wallpaper.jpg" 
                   alt="Example Wallpaper" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="mt-4 text-sm font-medium text-gray-700">CUSTOM NAME</p>
+              <p className="mt-4 text-sm font-medium">CUSTOM NAME</p>
             </div>
 
             <div className="mb-8 text-sm text-gray-600 space-y-2 leading-relaxed">
