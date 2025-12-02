@@ -15,7 +15,7 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
   const [canResend, setCanResend] = useState(false);
   
   // Create refs for each input
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null, null, null, null, null]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -202,7 +202,7 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
             {otp.map((digit, index) => (
               <input
                 key={index}
-                ref={el => inputRefs.current[index] = el}
+                ref={el => { inputRefs.current[index] = el; }}
                 type="tel"
                 inputMode="numeric"
                 pattern="\d*"
