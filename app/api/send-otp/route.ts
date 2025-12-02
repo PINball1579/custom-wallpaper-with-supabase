@@ -3,7 +3,6 @@ import { createOTP } from '@/lib/db';
 import { requestOTP } from '@/lib/smsService';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
   try {

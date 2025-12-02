@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
 
 /**
  * Upload generated wallpaper to Vercel Blob Storage

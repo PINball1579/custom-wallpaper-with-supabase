@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createUser } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
 
 
 export async function POST(req: NextRequest) {
