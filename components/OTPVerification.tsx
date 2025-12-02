@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface OTPVerificationProps {
   phoneNumber: string;
@@ -13,6 +13,9 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
   const [error, setError] = useState('');
   const [timer, setTimer] = useState(300); // 5 minutes
   const [canResend, setCanResend] = useState(false);
+  
+  // Create refs for each input
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +32,38 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
   }, []);
 
   const handleChange = (index: number, value: string) => {
-    if (value.length > 1) return;
+    // Handle paste or autocomplete with full OTP
+    if (value.length > 1) {
+      // Extract only digits
+      const digits = value.replace(/\D/g, '');
+      
+      if (digits.length === 6) {
+        // Full OTP pasted or autocompleted
+        const newOtp = digits.split('').slice(0, 6);
+        setOtp(newOtp);
+        
+        // Focus the last input
+        inputRefs.current[5]?.focus();
+        return;
+      } else if (digits.length > 0) {
+        // Partial paste - fill from current position
+        const newOtp = [...otp];
+        const digitsArray = digits.split('');
+        
+        for (let i = 0; i < digitsArray.length && index + i < 6; i++) {
+          newOtp[index + i] = digitsArray[i];
+        }
+        
+        setOtp(newOtp);
+        
+        // Focus next empty input or last input
+        const nextIndex = Math.min(index + digitsArray.length, 5);
+        inputRefs.current[nextIndex]?.focus();
+        return;
+      }
+    }
+
+    // Single digit input
     if (value && !/^\d+$/.test(value)) return;
 
     const newOtp = [...otp];
@@ -38,15 +72,37 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
 
     // Auto-focus next input
     if (value && index < 5) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      nextInput?.focus();
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-${index - 1}`);
-      prevInput?.focus();
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace') {
+      if (!otp[index] && index > 0) {
+        // If current box is empty, move to previous and clear it
+        const newOtp = [...otp];
+        newOtp[index - 1] = '';
+        setOtp(newOtp);
+        inputRefs.current[index - 1]?.focus();
+      } else if (otp[index]) {
+        // If current box has value, just clear it
+        const newOtp = [...otp];
+        newOtp[index] = '';
+        setOtp(newOtp);
+      }
+      e.preventDefault();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    const digits = pastedData.replace(/\D/g, '');
+    
+    if (digits.length === 6) {
+      const newOtp = digits.split('').slice(0, 6);
+      setOtp(newOtp);
+      inputRefs.current[5]?.focus();
     }
   };
 
@@ -106,8 +162,7 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
       setOtp(['', '', '', '', '', '']);
       
       // Focus first input
-      const firstInput = document.getElementById('otp-0');
-      firstInput?.focus();
+      inputRefs.current[0]?.focus();
       
       // Show success message
       alert('New OTP has been sent to your phone');
@@ -147,13 +202,18 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
             {otp.map((digit, index) => (
               <input
                 key={index}
-                id={`otp-${index}`}
-                type="text"
-                maxLength={1}
+                ref={el => inputRefs.current[index] = el}
+                type="tel"
+                inputMode="numeric"
+                pattern="\d*"
+                maxLength={6}
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={handlePaste}
+                autoComplete={index === 0 ? "one-time-code" : "off"}
                 className="w-12 h-12 text-center text-2xl border-2 rounded-lg focus:ring-2 focus:ring-black focus:border-black text-black"
+                aria-label={`OTP digit ${index + 1}`}
               />
             ))}
           </div>
