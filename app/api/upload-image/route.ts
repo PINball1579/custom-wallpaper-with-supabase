@@ -7,6 +7,7 @@ import { put } from '@vercel/blob';
  */
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 30;
 
 export async function POST(req: NextRequest) {
   try {

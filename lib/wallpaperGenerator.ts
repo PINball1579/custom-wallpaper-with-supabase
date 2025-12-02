@@ -1,4 +1,6 @@
 import { createCanvas, loadImage } from 'canvas';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 
 export interface WallpaperConfig {
   wallpaperId: string;
@@ -11,38 +13,45 @@ export interface WallpaperConfig {
 
 export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer> {
   try {
-    // Load base wallpaper image from public URL
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-app.vercel.app';
-    const wallpaperUrl = `${baseUrl}/wallpapers/${config.wallpaperId}.jpg`;
+    // Load base wallpaper image from filesystem
+    // This works because we're using Node.js runtime
+    const wallpaperPath = join(process.cwd(), 'public', 'wallpapers', `${config.wallpaperId}.jpg`);
     
-    console.log('📸 Loading wallpaper from:', wallpaperUrl);
+    console.log('📸 Loading wallpaper from:', wallpaperPath);
     
-    const image = await loadImage(wallpaperUrl);
+    // Check if file exists first
+    try {
+      const imageBuffer = await readFile(wallpaperPath);
+      const image = await loadImage(imageBuffer);
+      
+      // Create canvas with same dimensions as wallpaper
+      const canvas = createCanvas(image.width, image.height);
+      const ctx = canvas.getContext('2d');
 
-    // Create canvas with same dimensions as wallpaper
-    const canvas = createCanvas(image.width, image.height);
-    const ctx = canvas.getContext('2d');
+      // Draw base wallpaper
+      ctx.drawImage(image, 0, 0);
 
-    // Draw base wallpaper
-    ctx.drawImage(image, 0, 0);
+      // Configure text style (using system fonts, no registerFont needed)
+      ctx.font = `bold ${config.fontSize}px Arial, sans-serif`;
+      ctx.fillStyle = config.fontColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
 
-    // Configure text style (using system fonts, no registerFont needed)
-    ctx.font = `bold ${config.fontSize}px Arial, sans-serif`;
-    ctx.fillStyle = config.fontColor;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+      // Add text shadow for better visibility
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
 
-    // Add text shadow for better visibility
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+      // Draw custom text
+      ctx.fillText(config.customText, config.textX, config.textY);
 
-    // Draw custom text
-    ctx.fillText(config.customText, config.textX, config.textY);
-
-    // Convert to buffer
-    return canvas.toBuffer('image/jpeg', { quality: 0.95 });
+      // Convert to buffer
+      return canvas.toBuffer('image/jpeg', { quality: 0.95 });
+    } catch (fileError: any) {
+      console.error('❌ File not found:', wallpaperPath);
+      throw new Error(`Wallpaper image not found: ${config.wallpaperId}.jpg. Please ensure the file exists in public/wallpapers/`);
+    }
   } catch (error) {
     console.error('Error generating wallpaper:', error);
     throw new Error('Failed to generate wallpaper');

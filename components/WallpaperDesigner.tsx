@@ -15,8 +15,13 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   const wallpapers = Object.keys(WALLPAPER_CONFIGS);
+
+  const handleImageError = (wallpaperId: string) => {
+    setImageErrors(prev => new Set([...prev, wallpaperId]));
+  };
 
   const handleGenerate = async () => {
     if (!customText.trim()) {
@@ -42,7 +47,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate wallpaper');
+        throw new Error(data.error || data.details || 'Failed to generate wallpaper');
       }
 
       setGeneratedImage(data.image);
@@ -119,6 +124,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     document.body.removeChild(link);
   };
 
+  const createPlaceholderImage = (id: string) => {
+    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 2400'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23064e3b;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23022c22;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='1080' height='2400'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23d4af37' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EDIOR%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif'%3E${id}%3C/text%3E%3C/svg%3E`;
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-lg p-8">
@@ -139,13 +148,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 }`}
               >
                 <img
-                  src={`/wallpapers/${id}.jpg`}
+                  src={imageErrors.has(id) ? createPlaceholderImage(id) : `/wallpapers/${id}.jpg`}
                   alt={id}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback to placeholder if image doesn't exist
-                    (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 2400"%3E%3Crect fill="%23667eea" width="1080" height="2400"/%3E%3Ctext x="50%25" y="50%25" font-size="48" fill="white" text-anchor="middle" dominant-baseline="middle"%3E' + id + '%3C/text%3E%3C/svg%3E';
-                  }}
+                  onError={() => handleImageError(id)}
                 />
                 {selectedWallpaper === id && (
                   <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
@@ -155,6 +161,11 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
               </button>
             ))}
           </div>
+          {imageErrors.size > 0 && (
+            <p className="text-xs text-amber-600 mt-2">
+              ⚠️ Some wallpaper images are missing. Placeholders shown. Upload images to public/wallpapers/
+            </p>
+          )}
         </div>
 
         {/* Custom Text Input */}
