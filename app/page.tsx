@@ -23,7 +23,7 @@ export default function Home() {
 
         // Check if opened in LINE
         if (!liff.isInClient()) {
-          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้นเท่านั้น');
+          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้น');
           window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
           return;
         }
@@ -128,7 +128,6 @@ export default function Home() {
             <p className="text-xl mb-6 text-black">DESIGN YOUR WALLPAPER</p>
             
             {/* Wallpaper Preview Image */}
-            <div className="my-8 bg-gray-100 p-4 rounded-lg">
               <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
                 <img 
                   src="/example_wallpaper.jpg" 
@@ -136,14 +135,8 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="mt-4 text-sm font-medium">CUSTOM NAME</p>
-            </div>
-
             <div className="mb-8 text-sm text-gray-600 space-y-2 leading-relaxed">
-              <p>To successfully design your personalized wallpaper,</p>
-              <p>please provide your information to the organizer</p>
-              <p>so we can send you the final wallpaper image</p>
-              <p>and follow up on future events.</p>
+              <p>To successfully design your personalized wallpaper, please provide your information to the organizer so we can send you the final wallpaper image and follow up on future events.</p>
               <p>Please verify all information before submitting.</p>
             </div>
 
