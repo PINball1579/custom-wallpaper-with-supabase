@@ -1,4 +1,4 @@
-import { createCanvas, loadImage } from '@napi-rs/canvas';
+import { createCanvas, loadImage } from 'canvas';
 import path from 'path';
 
 export interface WallpaperConfig {

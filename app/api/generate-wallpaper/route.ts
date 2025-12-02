@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateWallpaper, WALLPAPER_CONFIGS } from '@/lib/wallpaperGenerator';
 import { validateCustomText } from '@/lib/profanityFilter';
 import { incrementWallpaperDownload } from '@/lib/db';
 
@@ -27,6 +26,9 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Dynamic import to ensure it only runs on server
+    const { generateWallpaper, WALLPAPER_CONFIGS } = await import('@/lib/wallpaperGenerator');
 
     // Check if wallpaper config exists
     const wallpaperConfig = WALLPAPER_CONFIGS[wallpaperId as keyof typeof WALLPAPER_CONFIGS];
@@ -60,10 +62,10 @@ export async function POST(req: NextRequest) {
       image: `data:image/jpeg;base64,${base64Image}`,
       imageBuffer: base64Image // Send as base64 for LINE API
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in generate-wallpaper:', error);
     return NextResponse.json(
-      { error: 'Failed to generate wallpaper' },
+      { error: 'Failed to generate wallpaper', details: error.message },
       { status: 500 }
     );
   }
