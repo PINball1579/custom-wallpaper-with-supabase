@@ -3,9 +3,10 @@ import { generateWallpaper, WALLPAPER_CONFIGS } from '@/lib/wallpaperGenerator';
 import { validateCustomText } from '@/lib/profanityFilter';
 import { incrementWallpaperDownload } from '@/lib/db';
 
-// Important: Use Node.js runtime for canvas support
+// Important: Use Node.js runtime for canvas and filesystem support
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 30; // Allow up to 30 seconds for image generation
 
 export async function POST(req: NextRequest) {
   try {
@@ -64,8 +65,15 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('Error in generate-wallpaper:', error);
+    
+    // More detailed error message
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate wallpaper';
+    
     return NextResponse.json(
-      { error: 'Failed to generate wallpaper' },
+      { 
+        error: errorMessage,
+        details: 'Make sure wallpaper images exist in public/wallpapers/ folder'
+      },
       { status: 500 }
     );
   }
