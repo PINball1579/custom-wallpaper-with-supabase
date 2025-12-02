@@ -1,6 +1,4 @@
 import { createCanvas, loadImage } from 'canvas';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
 
 export interface WallpaperConfig {
   wallpaperId: string;
@@ -13,8 +11,11 @@ export interface WallpaperConfig {
 
 export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer> {
   try {
+    // Dynamic import of Node.js modules (only available at runtime)
+    const { readFile } = await import('fs/promises');
+    const { join } = await import('path');
+    
     // Load base wallpaper image from filesystem
-    // This works because we're using Node.js runtime
     const wallpaperPath = join(process.cwd(), 'public', 'wallpapers', `${config.wallpaperId}.jpg`);
     
     console.log('📸 Loading wallpaper from:', wallpaperPath);
