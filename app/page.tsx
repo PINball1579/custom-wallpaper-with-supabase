@@ -135,7 +135,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-            <div className="mb-8 text-sm text-gray-600 space-y-2 leading-relaxed">
+            <div className="mb-8 mt-10 text-sm text-gray-600 space-y-2 leading-relaxed">
               <p>To successfully design your personalized wallpaper, please provide your information to the organizer so we can send you the final wallpaper image and follow up on future events.</p>
               <p>Please verify all information before submitting.</p>
             </div>
