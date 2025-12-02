@@ -1,4 +1,4 @@
-import { createCanvas, loadImage, registerFont } from 'canvas';
+import { createCanvas, loadImage } from 'canvas';
 import path from 'path';
 
 export interface WallpaperConfig {
@@ -12,9 +12,13 @@ export interface WallpaperConfig {
 
 export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer> {
   try {
+    console.log('🎨 Generating wallpaper with text:', config.customText);
+
     // Load base wallpaper image
     const wallpaperPath = path.join(process.cwd(), 'public', 'wallpapers', `${config.wallpaperId}.jpg`);
     const image = await loadImage(wallpaperPath);
+
+    console.log('📐 Canvas size:', image.width, 'x', image.height);
 
     // Create canvas with same dimensions as wallpaper
     const canvas = createCanvas(image.width, image.height);
@@ -23,25 +27,35 @@ export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer
     // Draw base wallpaper
     ctx.drawImage(image, 0, 0);
 
-    // Configure text style
-    ctx.font = `${config.fontSize}px Arial`;
+    // Configure text style - use bold font for better visibility
+    ctx.font = `bold ${config.fontSize}px Arial, Helvetica, sans-serif`;
     ctx.fillStyle = config.fontColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Add text shadow for better visibility
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+    // Add stronger text shadow for better visibility
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+    ctx.shadowBlur = 15;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
 
-    // Draw custom text
+    // Draw text outline for even better visibility
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.lineWidth = 3;
+    ctx.strokeText(config.customText, config.textX, config.textY);
+
+    // Draw filled text
     ctx.fillText(config.customText, config.textX, config.textY);
 
+    console.log('✅ Text drawn:', config.customText, 'at', config.textX, config.textY);
+
     // Convert to buffer
-    return canvas.toBuffer('image/jpeg', { quality: 0.95 });
+    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.95 });
+    console.log('✅ Buffer created, size:', buffer.length, 'bytes');
+
+    return buffer;
   } catch (error) {
-    console.error('Error generating wallpaper:', error);
+    console.error('❌ Error generating wallpaper:', error);
     throw new Error('Failed to generate wallpaper');
   }
 }
