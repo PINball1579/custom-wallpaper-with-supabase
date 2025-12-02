@@ -1,43 +1,51 @@
 import { createCanvas, loadImage, registerFont } from 'canvas';
 import path from 'path';
-import { existsSync } from 'fs';
 
-// Register fonts on module load
-try {
-  // Try to register system fonts
-  const fontsPath = path.join(process.cwd(), 'public', 'fonts');
+// Font registration flag
+let fontRegistered = false;
+
+// Register fonts on module load (server-side only)
+function registerFonts() {
+  if (fontRegistered) return;
   
-  // Common font paths to try
-  const fontPaths = [
-    // Try custom fonts first
-    { path: path.join(fontsPath, 'Arial.ttf'), family: 'CustomFont' },
-    { path: path.join(fontsPath, 'Roboto-Bold.ttf'), family: 'CustomFont' },
-    // Try system fonts (Linux/Unix)
-    { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', family: 'CustomFont' },
-    { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', family: 'CustomFont' },
-    { path: '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', family: 'CustomFont' },
-    { path: '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', family: 'CustomFont' },
-  ];
+  try {
+    // Dynamic import of fs to avoid bundling issues
+    const fs = require('fs');
+    
+    // Try to register system fonts
+    const fontsPath = path.join(process.cwd(), 'public', 'fonts');
+    
+    // Common font paths to try
+    const fontPaths = [
+      // Try custom fonts first
+      { path: path.join(fontsPath, 'Arial.ttf'), family: 'CustomFont' },
+      { path: path.join(fontsPath, 'Roboto-Bold.ttf'), family: 'CustomFont' },
+      // Try system fonts (Linux/Unix)
+      { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', family: 'CustomFont' },
+      { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', family: 'CustomFont' },
+      { path: '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf', family: 'CustomFont' },
+      { path: '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf', family: 'CustomFont' },
+    ];
 
-  let fontRegistered = false;
-  for (const font of fontPaths) {
-    try {
-      if (existsSync(font.path)) {
-        registerFont(font.path, { family: font.family });
-        console.log('✅ Font registered from:', font.path);
-        fontRegistered = true;
-        break;
+    for (const font of fontPaths) {
+      try {
+        if (fs.existsSync(font.path)) {
+          registerFont(font.path, { family: font.family });
+          console.log('✅ Font registered from:', font.path);
+          fontRegistered = true;
+          break;
+        }
+      } catch (e) {
+        // Continue to next font
       }
-    } catch (e) {
-      // Continue to next font
     }
-  }
 
-  if (!fontRegistered) {
-    console.warn('⚠️ No custom font registered, using canvas default');
+    if (!fontRegistered) {
+      console.warn('⚠️ No custom font registered, using canvas default');
+    }
+  } catch (error) {
+    console.error('❌ Error registering fonts:', error);
   }
-} catch (error) {
-  console.error('❌ Error registering fonts:', error);
 }
 
 export interface WallpaperConfig {
@@ -51,6 +59,9 @@ export interface WallpaperConfig {
 
 export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer> {
   try {
+    // Register fonts before generating (server-side only)
+    registerFonts();
+    
     // Load base wallpaper image
     const wallpaperPath = path.join(process.cwd(), 'public', 'wallpapers', `${config.wallpaperId}.jpg`);
     const image = await loadImage(wallpaperPath);
