@@ -3,6 +3,9 @@ import { generateWallpaper, WALLPAPER_CONFIGS } from '@/lib/wallpaperGenerator';
 import { validateCustomText } from '@/lib/profanityFilter';
 import { incrementWallpaperDownload } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(req: NextRequest) {
   try {
     const { wallpaperId, customText, lineUserId } = await req.json();

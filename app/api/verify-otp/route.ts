@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getOTPByPhone, markOTPAsVerified } from '@/lib/db';
 import { verifyOTP } from '@/lib/smsService';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(req: NextRequest) {
   try {
     const { phoneNumber, otpCode } = await req.json();
