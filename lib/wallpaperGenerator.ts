@@ -52,12 +52,6 @@ export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // Add text shadow for better visibility
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-      ctx.shadowBlur = 10;
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-
       // Draw custom text
       ctx.fillText(config.customText, config.textX, config.textY);
 
@@ -82,27 +76,27 @@ export const WALLPAPER_CONFIGS = {
     textY: 1270, // Bottom third of 2400px height
   },
   wallpaper_2: {
-    fontSize: 70,
-    fontColor: '#000000',
-    textX: 540,
-    textY: 800,
+    fontSize: 100,
+    fontColor: '#07203e',
+    textX: 560,
+    textY: 1270,
   },
   wallpaper_3: {
-    fontSize: 90,
-    fontColor: '#FFD700',
-    textX: 540,
-    textY: 1200,
+    fontSize: 100,
+    fontColor: '#85898a',
+    textX: 560,
+    textY: 1270,
   },
   wallpaper_4: {
-    fontSize: 75,
-    fontColor: '#FFFFFF',
-    textX: 540,
-    textY: 1500,
+    fontSize: 100,
+    fontColor: '#60625f',
+    textX: 560,
+    textY: 1270,
   },
   wallpaper_5: {
-    fontSize: 85,
-    fontColor: '#FF69B4',
-    textX: 540,
-    textY: 1000,
+    fontSize: 100,
+    fontColor: '#000000',
+    textX: 560,
+    textY: 1270,
   },
 };
