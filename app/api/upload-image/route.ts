@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 
-export const dynamic = 'force-dynamic';
-
 /**
- * Upload generated wallpaper to Vercel Blob Storage
- * This makes it accessible via HTTPS URL for LINE
+ * Upload generated wallpaper using Vercel Blob Storage
+ * This works with Vercel serverless functions (no filesystem access needed)
  */
 export async function POST(req: NextRequest) {
   try {
@@ -18,34 +16,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log('📤 Uploading image for user:', lineUserId);
-
-    // Convert base64 to buffer
-    const buffer = Buffer.from(imageBuffer, 'base64');
-
     // Generate unique filename
     const timestamp = Date.now();
     const filename = `wallpaper_${lineUserId}_${timestamp}.jpg`;
 
-    // Upload to Vercel Blob
+    // Convert base64 to buffer
+    const buffer = Buffer.from(imageBuffer, 'base64');
+
+    // Upload to Vercel Blob Storage
     const blob = await put(filename, buffer, {
       access: 'public',
       contentType: 'image/jpeg',
     });
 
-    console.log('✅ Image uploaded to:', blob.url);
+    console.log('✅ Image uploaded to Vercel Blob:', blob.url);
 
     return NextResponse.json({
       success: true,
       imageUrl: blob.url
     });
-  } catch (error: any) {
-    console.error('❌ Error uploading image:', error);
+  } catch (error) {
+    console.error('Error uploading image:', error);
     return NextResponse.json(
-      { 
-        error: 'Failed to upload image',
-        details: error.message 
-      },
+      { error: 'Failed to upload image' },
       { status: 500 }
     );
   }
