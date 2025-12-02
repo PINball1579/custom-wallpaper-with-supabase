@@ -1,4 +1,4 @@
-import { createCanvas, loadImage } from 'canvas';
+import { createCanvas, loadImage, registerFont } from 'canvas';
 
 export interface WallpaperConfig {
   wallpaperId: string;
@@ -14,6 +14,19 @@ export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer
     // Dynamic import of Node.js modules (only available at runtime)
     const { readFile } = await import('fs/promises');
     const { join } = await import('path');
+    
+    // Register a font that supports Thai and English
+    // Try to register custom font, but don't fail if not available
+    let hasCustomFont = false;
+    try {
+      const fontPath = join(process.cwd(), 'public', 'fonts', 'NotoSansThai-Bold.ttf');
+      const fontBuffer = await readFile(fontPath);
+      registerFont(fontPath, { family: 'NotoSansThai' });
+      hasCustomFont = true;
+      console.log('✅ Custom font registered successfully');
+    } catch (fontError) {
+      console.warn('⚠️ Custom font not found, will use system fonts with Thai support');
+    }
     
     // Load base wallpaper image from filesystem
     const wallpaperPath = join(process.cwd(), 'public', 'wallpapers', `${config.wallpaperId}.jpg`);
@@ -32,8 +45,9 @@ export async function generateWallpaper(config: WallpaperConfig): Promise<Buffer
       // Draw base wallpaper
       ctx.drawImage(image, 0, 0);
 
-      // Configure text style (using system fonts, no registerFont needed)
-      ctx.font = `bold ${config.fontSize}px Arial, sans-serif`;
+      // Configure text style with font that supports Thai
+      // Try custom font first, fall back to system fonts with Thai support
+      ctx.font = `bold ${config.fontSize}px "NotoSansThai", "Sarabun", "Kanit", "Prompt", "Noto Sans", "DejaVu Sans", Arial, sans-serif`;
       ctx.fillStyle = config.fontColor;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
