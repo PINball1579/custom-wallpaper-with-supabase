@@ -129,21 +129,18 @@ export default function Home() {
             
             {/* Wallpaper Preview Image */}
             <div className="my-8 bg-gray-100 p-4 rounded-lg">
-              <div className="aspect-[9/16] max-w-xs mx-auto bg-gradient-to-b from-green-700 to-green-900 rounded-lg shadow-md flex items-center justify-center relative overflow-hidden">
-                {/* Forest texture background */}
-                <div className="absolute inset-0 opacity-40">
-                  <div className="w-full h-full" style={{
-                    backgroundImage: `repeating-linear-gradient(
-                      45deg,
-                      transparent,
-                      transparent 10px,
-                      rgba(0,0,0,.1) 10px,
-                      rgba(0,0,0,.1) 20px
-                    )`
-                  }}></div>
+              <div className="aspect-[9/16] max-w-xs mx-auto rounded-lg shadow-md overflow-hidden relative">
+                <img 
+                  src="/example_wallpaper.jpg" 
+                  alt="Example Wallpaper" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Sample text overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-white text-2xl font-bold px-4 text-center" style={{
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  }}>YOUR NAME</p>
                 </div>
-                {/* Sample text */}
-                <p className="text-white text-2xl font-bold relative z-10 px-4">YOUR NAME</p>
               </div>
               <p className="mt-4 text-sm font-medium text-gray-700">CUSTOM NAME</p>
             </div>
