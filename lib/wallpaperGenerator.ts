@@ -72,31 +72,31 @@ export const WALLPAPER_CONFIGS = {
   wallpaper_1: {
     fontSize: 100,
     fontColor: '#586971',
-    textX: 560, // Center of 1080px width
+    textX: 570, // Center of 1080px width
     textY: 1270, // Bottom third of 2400px height
   },
   wallpaper_2: {
     fontSize: 100,
     fontColor: '#07203e',
-    textX: 560,
+    textX: 570,
     textY: 1270,
   },
   wallpaper_3: {
     fontSize: 100,
     fontColor: '#85898a',
-    textX: 560,
+    textX: 570,
     textY: 1270,
   },
   wallpaper_4: {
     fontSize: 100,
     fontColor: '#60625f',
-    textX: 560,
+    textX: 570,
     textY: 1270,
   },
   wallpaper_5: {
     fontSize: 100,
     fontColor: '#000000',
-    textX: 560,
+    textX: 570,
     textY: 1270,
   },
 };
