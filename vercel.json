@@ -5,9 +5,5 @@
       "memory": 1024
     }
   },
-  "outputDirectory": ".next",
-  "includeFiles": [
-    "public/fonts/**",
-    "public/wallpapers/**"
-  ]
+  "outputDirectory": ".next"
 }
