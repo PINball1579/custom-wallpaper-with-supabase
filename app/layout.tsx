@@ -5,7 +5,7 @@ import localFont from 'next/font/local';
 const customFont = localFont({
   src: [
     {
-      path: './fonts/TikTokSans_SemiExpanded-Light.ttf',
+      path: '../fonts/TikTokSans_SemiExpanded-Light.ttf',
       weight: '400',
       style: 'normal',
     },
