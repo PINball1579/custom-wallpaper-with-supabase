@@ -11,7 +11,6 @@ export default function Home() {
   const [lineUserId, setLineUserId] = useState<string>('');
   const [userData, setUserData] = useState<any>(null);
   const [error, setError] = useState<string>('');
-  const [isReturningUser, setIsReturningUser] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -24,7 +23,7 @@ export default function Home() {
 
         // Check if opened in LINE
         if (!liff.isInClient()) {
-          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้นเท่านั้น');
+          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้น');
           window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
           return;
         }
@@ -40,42 +39,13 @@ export default function Home() {
 
         if (mounted) {
           setLineUserId(profile.userId);
-          
-          // Check if user is already registered
-          await checkUserRegistration(profile.userId);
+          setStep('landing');
         }
       } catch (error) {
         console.error('LIFF initialization failed', error);
         if (mounted) {
           setError('Failed to initialize. Please try again.');
         }
-      }
-    };
-
-    const checkUserRegistration = async (userId: string) => {
-      try {
-        console.log('🔍 Checking registration status for:', userId);
-        
-        const response = await fetch('/api/check-user', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lineUUID: userId })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.registered) {
-          console.log('✅ Returning user detected, redirecting to design page');
-          setIsReturningUser(true);
-          setStep('design');
-        } else {
-          console.log('ℹ️ New user, showing landing page');
-          setStep('landing');
-        }
-      } catch (error) {
-        console.error('❌ Error checking registration:', error);
-        // If check fails, show landing page as fallback
-        setStep('landing');
       }
     };
 
@@ -158,20 +128,16 @@ export default function Home() {
             <p className="text-xl mb-6 text-black">DESIGN YOUR WALLPAPER</p>
             
             {/* Wallpaper Preview Image */}
-            <div className="my-8 bg-gray-100 p-4 rounded-lg">
-              <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md flex items-center justify-center">
-                <p className="text-gray-400">Wallpaper Preview</p>
+              <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+                <img 
+                  src="/example_wallpaper.jpg" 
+                  alt="Example Wallpaper" 
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <p className="mt-4 text-sm font-medium">CUSTOM NAME</p>
-            </div>
-
-            <div className="mb-8 text-sm text-gray-600 space-y-2">
-              <p>เพื่อให้เกมการออกแบบวอลเปเปอร์ในแบบของคุณสำเร็จ</p>
-              <p>Wallpaper ในรูปแบบของคุณ</p>
-              <p>กรุณาให้ข้อมูลแก่ผู้จัดงานเพื่อเก็บ</p>
-              <p>เพื่อแจกภาพให้ Dior เมื่อสร้างสิ้นของที่คุณ</p>
-              <p>และการติดตามผลของงานนี้ในอนาคต</p>
-              <p>กรุณาตรวจสอบให้แน่ใจก่อนกดส่ง</p>
+            <div className="mb-8 mt-10 text-sm text-gray-600 space-y-2 leading-relaxed">
+              <p>To successfully design your personalized wallpaper, please provide your information to the organizer so we can send you the final wallpaper image and follow up on future events.</p>
+              <p>Please verify all information before submitting.</p>
             </div>
 
             <button
@@ -196,18 +162,7 @@ export default function Home() {
       )}
 
       {step === 'design' && (
-        <div>
-          {isReturningUser && (
-            <div className="max-w-2xl mx-auto p-6 mb-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                <p className="text-green-700 font-medium">
-                  👋 Welcome back! You can create a new wallpaper below.
-                </p>
-              </div>
-            </div>
-          )}
-          <WallpaperDesigner lineUserId={lineUserId} />
-        </div>
+        <WallpaperDesigner lineUserId={lineUserId} />
       )}
     </main>
   );
