@@ -191,7 +191,7 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
         </div>
         <div className="text-center flex flex-col items-center">
           <p className="text-black text-xl mb-4">PHONE NUMBER VERIFICATION</p>
-          <p className="text-sm text-black">
+          <p className="text-sm text-black mb-8">
             An OTP was sent to verify<br />
             your phone number.<br />
             <strong>{phoneNumber}</strong>
@@ -204,7 +204,7 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
             </div>
           )}
 
-          <p className="">PLEASE ENTER OTP</p>
+          <p className="mb-3">PLEASE ENTER OTP</p>
 
           <form onSubmit={handleSubmit}>
             <div className="flex justify-center gap-2 mb-6">
