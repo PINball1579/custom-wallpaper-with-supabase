@@ -10,6 +10,7 @@ export default function Home() {
   const [step, setStep] = useState<'loading' | 'landing' | 'form' | 'otp' | 'design'>('loading');
   const [lineUserId, setLineUserId] = useState<string>('');
   const [userData, setUserData] = useState<any>(null);
+  const [referenceCode, setReferenceCode] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
@@ -60,9 +61,10 @@ export default function Home() {
     setStep('form');
   };
 
-  const handleFormSubmit = (data: any) => {
-    // Store user data temporarily (don't save to DB yet)
+  const handleFormSubmit = (data: any, refCode: string) => {
+    // Store user data and reference code temporarily (don't save to DB yet)
     setUserData(data);
+    setReferenceCode(refCode);
     setStep('otp');
   };
 
@@ -162,7 +164,8 @@ export default function Home() {
       
       {step === 'otp' && userData && (
         <OTPVerification 
-          phoneNumber={userData.phoneNumber} 
+          phoneNumber={userData.phoneNumber}
+          referenceCode={referenceCode}
           onVerified={handleOTPVerified} 
         />
       )}

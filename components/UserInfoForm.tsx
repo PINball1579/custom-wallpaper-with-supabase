@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 interface UserInfoFormProps {
   lineUserId: string;
-  onSubmit: (userData: any) => void;
+  onSubmit: (userData: any, referenceCode: string) => void;
 }
 
 export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps) {
@@ -57,12 +57,12 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
         throw new Error(otpData.error || 'Failed to send OTP');
       }
 
-      // Pass form data to parent (will be saved after OTP verification)
+      // Pass form data and reference code to parent (will be saved after OTP verification)
       // Include lineUserId in the data
       onSubmit({
         ...formData,
         lineUserId
-      });
+      }, otpData.referenceCode || '');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred';
       setError(errorMessage);

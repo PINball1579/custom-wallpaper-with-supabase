@@ -48,7 +48,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'OTP sent successfully'
+      message: 'OTP sent successfully',
+      referenceCode: result.referenceCode || result.token.substring(0, 6).toUpperCase()
     });
   } catch (error) {
     console.error('❌ Error in send-otp:', error);

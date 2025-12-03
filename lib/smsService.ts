@@ -5,6 +5,7 @@ const OTP_API_BASE_URL = 'https://otp.thaibulksms.com/v2/otp';
 interface OTPRequestResponse {
   status: string;
   token: string;
+  refno?: string; // Reference number from API
 }
 
 interface OTPVerifyResponse {
@@ -14,9 +15,14 @@ interface OTPVerifyResponse {
 
 /**
  * Request OTP from ThaiBulkSMS
- * Returns a token that will be used for verification
+ * Returns a token and reference code that will be used for verification
  */
-export async function requestOTP(phoneNumber: string): Promise<{ success: boolean; token?: string; error?: string }> {
+export async function requestOTP(phoneNumber: string): Promise<{ 
+  success: boolean; 
+  token?: string; 
+  referenceCode?: string;
+  error?: string 
+}> {
   try {
     console.log('📞 Requesting OTP for phone:', phoneNumber);
 
@@ -54,7 +60,8 @@ export async function requestOTP(phoneNumber: string): Promise<{ success: boolea
     if (response.data && response.data.token) {
       return {
         success: true,
-        token: response.data.token
+        token: response.data.token,
+        referenceCode: response.data.refno || response.data.token.substring(0, 6).toUpperCase()
       };
     }
 

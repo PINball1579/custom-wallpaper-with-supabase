@@ -4,15 +4,30 @@ import { useState, useEffect, useRef } from 'react';
 
 interface OTPVerificationProps {
   phoneNumber: string;
+  referenceCode: string;
   onVerified: () => void;
 }
 
-export default function OTPVerification({ phoneNumber, onVerified }: OTPVerificationProps) {
+// Function to format phone number with dashes
+function formatPhoneNumber(phone: string): string {
+  // Remove any existing dashes or spaces
+  const cleaned = phone.replace(/[-\s]/g, '');
+  
+  // Format as XXX-XXX-XXXX (Thai format)
+  if (cleaned.length === 10) {
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+  }
+  
+  return phone;
+}
+
+export default function OTPVerification({ phoneNumber, referenceCode, onVerified }: OTPVerificationProps) {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [timer, setTimer] = useState(300); // 5 minutes
   const [canResend, setCanResend] = useState(false);
+  const [currentReferenceCode, setCurrentReferenceCode] = useState(referenceCode);
 
   // Create refs for each input
   const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null, null, null, null, null]);
@@ -156,6 +171,11 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
         throw new Error(data.error || 'Failed to resend OTP');
       }
 
+      // Update reference code if provided
+      if (data.referenceCode) {
+        setCurrentReferenceCode(data.referenceCode);
+      }
+
       // Reset form state
       setTimer(300);
       setCanResend(false);
@@ -191,12 +211,13 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
         </div>
         <div className="text-center flex flex-col items-center">
           <p className="text-black text-xl mb-4">PHONE NUMBER VERIFICATION</p>
-          <p className="text-sm text-black mb-8">
+          <p className="text-sm text-black mb-2">
             An OTP was sent to verify<br />
-            your phone number.<br />
-            <strong>{phoneNumber}</strong>
+            your phone number.
           </p>
-
+          <p className="text-base text-black font-semibold mb-8">
+            {formatPhoneNumber(phoneNumber)}
+          </p>
 
           {error && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
@@ -204,10 +225,10 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
             </div>
           )}
 
-          <p className="mb-3">PLEASE ENTER OTP</p>
+          <p className="mb-3 text-black">PLEASE ENTER OTP</p>
 
           <form onSubmit={handleSubmit}>
-            <div className="flex justify-center gap-2 mb-6">
+            <div className="flex justify-center gap-2 mb-4">
               {otp.map((digit, index) => (
                 <input
                   key={index}
@@ -227,14 +248,11 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
               ))}
             </div>
 
+            {/* Reference Code */}
             <div className="text-center mb-6">
-              {timer > 0 ? (
-                <p className="text-sm text-gray-500">
-                  OTP expires in <strong>{formatTime(timer)}</strong>
-                </p>
-              ) : (
-                <p className="text-sm text-red-600">OTP expired</p>
-              )}
+              <p className="text-sm text-gray-600">
+                REFERENCE CODE : <span className="font-semibold text-black">{currentReferenceCode}</span>
+              </p>
             </div>
 
             <button
@@ -245,14 +263,25 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
               {loading ? 'Verifying...' : 'SUBMIT'}
             </button>
 
+            {/* Resend Timer */}
+            <div className="text-center mb-3">
+              {timer > 0 ? (
+                <p className="text-sm text-gray-500">
+                  RESEND OTP IN <strong>{formatTime(timer)}</strong>
+                </p>
+              ) : (
+                <p className="text-sm text-red-600">OTP expired</p>
+              )}
+            </div>
+
             {canResend && (
               <button
                 type="button"
                 onClick={handleResend}
                 disabled={loading}
-                className="w-full border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition"
+                className="w-full border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition text-sm underline"
               >
-                Resend OTP
+                RESEND OTP
               </button>
             )}
           </form>
