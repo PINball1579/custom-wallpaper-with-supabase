@@ -183,7 +183,13 @@ export default function OTPVerification({ phoneNumber, onVerified }: OTPVerifica
     <div className="max-w-md mx-auto p-6">
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-black">DIOR</h1>
+          <div className="flex justify-center">
+              <img 
+                src="/Dior-Logo.png" 
+                alt="DIOR" 
+                className="h-20 w-auto object-contain"
+              />
+          </div>
           <p className="text-gray-600 mb-4">PHONE NUMBER VERIFICATION</p>
           <p className="text-sm text-gray-500">
             We have sent a verification code to<br />

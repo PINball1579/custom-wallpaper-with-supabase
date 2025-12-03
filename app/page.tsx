@@ -22,11 +22,11 @@ export default function Home() {
         if (!mounted) return;
 
         // Check if opened in LINE
-        if (!liff.isInClient()) {
-          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้น');
-          window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
-          return;
-        }
+        // if (!liff.isInClient()) {
+        //   alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้น');
+        //   window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
+        //   return;
+        // }
 
         // Check if user is logged in
         if (!liff.isLoggedIn()) {
@@ -124,8 +124,14 @@ export default function Home() {
       {step === 'landing' && (
         <div className="max-w-2xl mx-auto p-6">
           <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <h1 className="text-4xl font-bold mb-4 text-black">DIOR</h1>
-            <p className="text-xl mb-6 text-black">DESIGN YOUR WALLPAPER</p>
+            <div className="flex justify-center">
+              <img 
+                src="/Dior-Logo.png" 
+                alt="DIOR" 
+                className="h-20 w-auto object-contain"
+              />
+            </div>
+            <p className="text-xl mb-3 text-black font-thin">DESIGN YOUR WALLPAPER</p>
             
             {/* Wallpaper Preview Image */}
               <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
@@ -135,14 +141,14 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-            <div className="mb-8 mt-10 text-sm text-gray-600 space-y-2 leading-relaxed">
+            <div className="mb-4 mt-4 text-sm text-gray-600 space-y-2 leading-relaxed">
               <p>เพื่อค้นพบประสบการณ์ใหม่แห่งการสร้างสรรค์ Wallpaper ในรูปแบบของคุณ พร้อมทั้งได้รับข้อมูลและบริการสุดพิเศษ</p>
               <p>เพียงอนุญาตให้ Dior เชื่อมโยงกับบัญชีไลน์และกรอกแบบสอบถามเพื่อยืนยันการเชื่อมต่อข้อมูลที่ถูกต้อง</p>
             </div>
 
             <button
               onClick={handleStartClick}
-              className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition text-lg font-medium cursor-pointer"
+              className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition text-lg font-medium cursor-pointer"
             >
               CLICK TO START
             </button>

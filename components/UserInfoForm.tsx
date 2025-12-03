@@ -74,11 +74,16 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-black">DIOR</h1>
-          <p className="text-black">DESIGN YOUR WALLPAPER</p>
-          <p className="text-sm text-black mt-2">REQUIRED INFORMATION</p>
+        <div className="text-center">
+          <div className="flex justify-center">
+              <img 
+                src="/Dior-Logo.png" 
+                alt="DIOR" 
+                className="h-20 w-auto object-contain"
+              />
+          </div>
         </div>
+          <p className="text-sm text-black mb-4">REQUIRED INFORMATION</p>
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
@@ -88,15 +93,15 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">Title</label>
+            <label className="block text-sm mb-1 text-black">TITLES<span className="text-red-600 ml-1">*</span></label>
             <select
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             >
-              <option value="">Select title</option>
+              <option value=""></option>
               <option value="Mr.">Mr.</option>
               <option value="Mrs.">Mrs.</option>
               <option value="Ms.">Ms.</option>
@@ -104,39 +109,39 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">First Name (EN)</label>
+            <label className="block text-sm mb-1 text-black">FIRST NAME (EN)<span className="text-red-600 ml-1">*</span></label>
             <input
               type="text"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">Last Name (EN)</label>
+            <label className="block text-sm mb-1 text-black">LAST NAME (EN)<span className="text-red-600 ml-1">*</span></label>
             <input
               type="text"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">Gender</label>
+            <label className="block text-sm mb-1 text-black">GENDER<span className="text-red-600 ml-1">*</span></label>
             <select
               name="gender"
               value={formData.gender}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             >
-              <option value="">Select gender</option>
+              <option value=""></option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
@@ -144,41 +149,43 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">Date of Birth</label>
+            <label className="block text-sm mb-1 text-black">DATE OF BIRTH<span className="text-red-600 ml-1">*</span></label>
             <input
               type="date"
               name="dateOfBirth"
               value={formData.dateOfBirth}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">Email</label>
+            <label className="block text-sm mb-1 text-black">EMAIL<span className="text-red-600 ml-1">*</span></label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black">Phone Number</label>
+            <label className="block text-sm mb-1">PHONE NUMBER<span className="text-red-600 ml-1">*</span></label>
+            
             <input
               type="tel"
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
-              placeholder="0812345678"
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black"
               required
             />
           </div>
+            <div className="h-[1px] w-full bg-black mb-1"/>
+            <p className='leading-1 text-sm'>Please take a moment to review our privacy policy and terms of conditions and indicate your consent by checking the respective boxes provided on the form.</p>
 
           <div className="flex items-start mt-6">
             <input
@@ -189,15 +196,16 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
               className="mt-1 mr-2"
               required
             />
-            <label className="text-sm text-gray-600">
-              I agree to share my LINE user ID and personal information for this service
+
+            <label className="text-sm text-black">
+              <p>I agree to the Dior's <span className="underline cursor-pointer">terms and conditions</span> and <span className="underline cursor-pointer">privacy policy</span></p>
             </label>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
+            className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
           >
             {loading ? 'Sending OTP...' : 'SUBMIT'}
           </button>
