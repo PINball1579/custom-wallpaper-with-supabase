@@ -136,8 +136,8 @@ export default function Home() {
                 />
               </div>
             <div className="mb-8 mt-10 text-sm text-gray-600 space-y-2 leading-relaxed">
-              <p>To successfully design your personalized wallpaper, please provide your information to the organizer so we can send you the final wallpaper image and follow up on future events.</p>
-              <p>Please verify all information before submitting.</p>
+              <p>เพื่อค้นพบประสบการณ์ใหม่แห่งการสร้างสรรค์ Wallpaper ในรูปแบบของคุณ พร้อมทั้งได้รับข้อมูลและบริการสุดพิเศษ</p>
+              <p>เพียงอนุญาตให้ Dior เชื่อมโยงกับบัญชีไลน์และกรอกแบบสอบถามเพื่อยืนยันการเชื่อมต่อข้อมูลที่ถูกต้อง</p>
             </div>
 
             <button

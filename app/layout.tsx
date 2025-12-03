@@ -1,5 +1,18 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import localFont from 'next/font/local';
+
+const customFont = localFont({
+  src: [
+    {
+      path: './fonts/TikTokSans_SemiExpanded-Light.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-custom',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Dior Wallpaper Designer',
@@ -13,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${customFont.variable}`}>
       <head>
         <script
           src="https://static.line-scdn.net/liff/edge/2/sdk.js"
