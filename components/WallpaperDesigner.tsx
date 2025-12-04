@@ -268,10 +268,15 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     );
   }
 
-  // Step 2: Customize with Name
+  // Step 2: Customize with Name (WITH PREVIEW - VERSION 1)
   if (step === 'customize') {
     // Get the wallpaper config for text styling
     const wallpaperConfig = WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS];
+
+    // Calculate the scale factor for preview
+    // Actual wallpaper is 1080px wide, preview container is roughly 384px (max-w-sm)
+    // But we need to scale based on the actual rendered size
+    const previewScale = 0.35; // Approximate scale: 384/1080 ≈ 0.355
 
     return (
       <div className="min-h-screen bg-white flex flex-col">
@@ -320,7 +325,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                   className="absolute" 
                   style={{
                     left: '50%',
-                    top: '52.92%', // 1270/2400 = 52.92%
+                    top: `${(wallpaperConfig.textY / 2400) * 100}%`, // Use actual Y position from config
                     transform: 'translate(-50%, -50%)',
                     width: '100%',
                     textAlign: 'center'
@@ -328,10 +333,11 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 >
                   <p 
                     style={{ 
-                      fontSize: `${wallpaperConfig.fontSize / 12}px`, // Scale down for preview (1080px width -> ~90px base)
+                      fontSize: `${wallpaperConfig.fontSize * previewScale}px`, // Scale font properly
                       color: wallpaperConfig.fontColor,
                       fontFamily: '"NotoSansThai", "Sarabun", "Kanit", sans-serif',
-                      fontWeight: 'bold'
+                      fontWeight: 'bold',
+                      letterSpacing: '0.05em'
                     }}
                   >
                     {customText}
