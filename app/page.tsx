@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import liff from '@line/liff';
 import UserInfoForm from '@/components/UserInfoForm';
 import OTPVerification from '@/components/OTPVerification';
+import ConnectedWithDior from '@/components/ConnectedWithDior';
 import WallpaperDesigner from '@/components/WallpaperDesigner';
 
 export default function Home() {
-  const [step, setStep] = useState<'loading' | 'landing' | 'form' | 'otp' | 'design'>('loading');
+  const [step, setStep] = useState<'loading' | 'landing' | 'form' | 'otp' | 'connected' | 'design'>('loading');
   const [lineUserId, setLineUserId] = useState<string>('');
   const [userData, setUserData] = useState<any>(null);
   const [referenceCode, setReferenceCode] = useState<string>('');
@@ -86,17 +87,21 @@ export default function Home() {
         throw new Error(data.error || 'Failed to save user data');
       }
 
-      // Proceed to design page
-      setStep('design');
+      // Proceed to connected page
+      setStep('connected');
     } catch (err) {
       console.error('Error saving user data:', err);
       setError('Failed to save user data. Please try again.');
     }
   };
 
+  const handleContinueToDesign = () => {
+    setStep('design');
+  };
+
   if (step === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-black mx-auto mb-4"></div>
           <p className="text-lg text-gray-600">Loading...</p>
@@ -107,7 +112,7 @@ export default function Home() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center p-6">
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button
@@ -122,7 +127,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-white">
       {step === 'landing' && (
         <div className="max-w-2xl mx-auto p-6">
           <div className="bg-white rounded-lg shadow-lg p-8 text-center">
@@ -136,13 +141,13 @@ export default function Home() {
             <p className="text-xl mb-3 text-black font-thin">DESIGN YOUR WALLPAPER</p>
             
             {/* Wallpaper Preview Image */}
-              <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-                <img 
-                  src="/example_wallpaper.jpg" 
-                  alt="Example Wallpaper" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+              <img 
+                src="/example_wallpaper.jpg" 
+                alt="Example Wallpaper" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="mb-4 mt-4 text-sm text-gray-600 space-y-2 leading-relaxed">
               <p>เพื่อค้นพบประสบการณ์ใหม่แห่งการสร้างสรรค์ Wallpaper ในรูปแบบของคุณ พร้อมทั้งได้รับข้อมูลและบริการสุดพิเศษ</p>
               <p>เพียงอนุญาตให้ Dior เชื่อมโยงกับบัญชีไลน์และกรอกแบบสอบถามเพื่อยืนยันการเชื่อมต่อข้อมูลที่ถูกต้อง</p>
@@ -168,6 +173,10 @@ export default function Home() {
           referenceCode={referenceCode}
           onVerified={handleOTPVerified} 
         />
+      )}
+
+      {step === 'connected' && (
+        <ConnectedWithDior onContinue={handleContinueToDesign} />
       )}
 
       {step === 'design' && (

@@ -8,19 +8,40 @@ interface WallpaperDesignerProps {
 }
 
 export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps) {
-  const [selectedWallpaper, setSelectedWallpaper] = useState<string>('wallpaper_1');
+  const [step, setStep] = useState<'select' | 'customize'>('select');
+  const [selectedWallpaper, setSelectedWallpaper] = useState<string>('');
   const [customText, setCustomText] = useState<string>('');
   const [generatedImage, setGeneratedImage] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   const wallpapers = Object.keys(WALLPAPER_CONFIGS);
+  const currentIndex = wallpapers.indexOf(selectedWallpaper);
 
-  const handleImageError = (wallpaperId: string) => {
-    setImageErrors(prev => new Set([...prev, wallpaperId]));
+  const handleNext = () => {
+    if (selectedWallpaper) {
+      setStep('customize');
+    }
+  };
+
+  const handleBack = () => {
+    setStep('select');
+    setCustomText('');
+    setGeneratedImage('');
+    setError('');
+    setSuccessMessage('');
+  };
+
+  const handlePrevWallpaper = () => {
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : wallpapers.length - 1;
+    setSelectedWallpaper(wallpapers[newIndex]);
+  };
+
+  const handleNextWallpaper = () => {
+    const newIndex = currentIndex < wallpapers.length - 1 ? currentIndex + 1 : 0;
+    setSelectedWallpaper(wallpapers[newIndex]);
   };
 
   const handleGenerate = async () => {
@@ -69,7 +90,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     setSuccessMessage('');
 
     try {
-      // Use the imageBuffer from generate or the current generatedImage
       const bufferToSend = imageBuffer || generatedImage.replace(/^data:image\/\w+;base64,/, '');
 
       // First, upload image to get public URL
@@ -104,7 +124,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         throw new Error(sendData.error || 'Failed to send to LINE');
       }
 
-      setSuccessMessage('✅ Wallpaper sent to your LINE chat successfully!');
+      setSuccessMessage('Wallpaper sent to your LINE chat successfully!');
     } catch (err: any) {
       console.error('Error sending to LINE:', err);
       setError(err.message || 'Failed to send to LINE. Please try downloading instead.');
@@ -113,156 +133,244 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     }
   };
 
-  const handleDownload = () => {
-    if (!generatedImage) return;
+  // Wallpaper Selection Step
+  if (step === 'select') {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        {/* Header */}
+        <div className="flex justify-center pt-8 pb-6">
+          <img 
+            src="/Dior-Logo.png" 
+            alt="DIOR" 
+            className="h-12 w-auto object-contain"
+          />
+        </div>
 
-    const link = document.createElement('a');
-    link.href = generatedImage;
-    link.download = `dior-wallpaper-${customText.replace(/\s+/g, '-')}.jpg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+        {/* Progress Indicator */}
+        <div className="flex justify-center items-center gap-2 mb-8">
+          <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-medium">
+            1
+          </div>
+          <div className="w-16 border-t-2 border-dotted border-gray-300"></div>
+          <div className="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center text-sm font-medium">
+            2
+          </div>
+        </div>
 
-  const createPlaceholderImage = (id: string) => {
-    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 2400'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23064e3b;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23022c22;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='1080' height='2400'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23d4af37' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EDIOR%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif'%3E${id}%3C/text%3E%3C/svg%3E`;
-  };
+        {/* Title */}
+        <div className="text-center mb-6">
+          <h2 className="text-lg font-light tracking-wide text-black">
+            CHOOSE A WALLPAPER PATTERN
+          </h2>
+        </div>
 
-  return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">Design Your Wallpaper</h1>
+        {/* Main Wallpaper Display */}
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <div className="relative w-full max-w-sm">
+            {/* Navigation Arrows */}
+            <button
+              onClick={handlePrevWallpaper}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black transition"
+              aria-label="Previous wallpaper"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
 
-        {/* Wallpaper Selection */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-3">Select Wallpaper</label>
-          <div className="grid grid-cols-3 gap-4">
+            <button
+              onClick={handleNextWallpaper}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black transition"
+              aria-label="Next wallpaper"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Main Wallpaper */}
+            <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-2xl">
+              <img
+                src={selectedWallpaper ? `/wallpapers/${selectedWallpaper}.jpg` : '/wallpapers/wallpaper_1.jpg'}
+                alt="Selected wallpaper"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 2400'%3E%3Crect fill='%23f3f4f6' width='1080' height='2400'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23000' text-anchor='middle' dominant-baseline='middle'%3EDIOR%3C/text%3E%3C/svg%3E`;
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Thumbnail Gallery */}
+        <div className="px-6 py-6">
+          <div className="flex justify-center gap-3 mb-6 overflow-x-auto pb-2">
             {wallpapers.map((id) => (
               <button
                 key={id}
                 onClick={() => setSelectedWallpaper(id)}
-                className={`relative aspect-[9/16] rounded-lg overflow-hidden border-4 transition ${
+                className={`flex-shrink-0 w-20 aspect-[9/16] rounded-lg overflow-hidden border-2 transition ${
                   selectedWallpaper === id
-                    ? 'border-black'
+                    ? 'border-black ring-2 ring-black'
                     : 'border-gray-200 hover:border-gray-400'
                 }`}
               >
                 <img
-                  src={imageErrors.has(id) ? createPlaceholderImage(id) : `/wallpapers/${id}.jpg`}
-                  alt={id}
+                  src={`/wallpapers/${id}.jpg`}
+                  alt={`Wallpaper ${id}`}
                   className="w-full h-full object-cover"
-                  onError={() => handleImageError(id)}
+                  onError={(e) => {
+                    e.currentTarget.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 2400'%3E%3Crect fill='%23f3f4f6' width='1080' height='2400'/%3E%3C/svg%3E`;
+                  }}
                 />
-                {selectedWallpaper === id && (
-                  <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">✓</span>
-                  </div>
-                )}
               </button>
             ))}
           </div>
-          {imageErrors.size > 0 && (
-            <p className="text-xs text-amber-600 mt-2">
-              ⚠️ Some wallpaper images are missing. Placeholders shown. Upload images to public/wallpapers/
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            disabled={!selectedWallpaper}
+            className="w-full bg-black text-white py-4 rounded-none text-sm font-medium tracking-wider hover:bg-gray-900 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            NEXT &gt;
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Customize Step
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Header */}
+      <div className="flex justify-center pt-8 pb-6">
+        <img 
+          src="/Dior-Logo.png" 
+          alt="DIOR" 
+          className="h-12 w-auto object-contain"
+        />
+      </div>
+
+      {/* Progress Indicator */}
+      <div className="flex justify-center items-center gap-2 mb-8">
+        <div className="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center text-sm font-medium">
+          1
+        </div>
+        <div className="w-16 border-t-2 border-dotted border-gray-300"></div>
+        <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-medium">
+          2
+        </div>
+      </div>
+
+      {/* Title */}
+      <div className="text-center mb-6">
+        <h2 className="text-lg font-light tracking-wide text-black">
+          ADD YOUR NAME
+        </h2>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6">
+        {/* Wallpaper Preview */}
+        <div className="relative w-full max-w-sm mb-6">
+          <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-2xl">
+            {generatedImage ? (
+              <img
+                src={generatedImage}
+                alt="Generated wallpaper"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="relative w-full h-full">
+                <img
+                  src={`/wallpapers/${selectedWallpaper}.jpg`}
+                  alt="Selected wallpaper"
+                  className="w-full h-full object-cover"
+                />
+                {customText && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center px-4">
+                      <p className="text-4xl font-bold text-gray-700" style={{ 
+                        fontFamily: '"NotoSansThai", "Sarabun", "Kanit", sans-serif'
+                      }}>
+                        {customText}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2">CUSTOM NAME</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Input Section */}
+        {!generatedImage && (
+          <div className="w-full max-w-sm">
+            <input
+              type="text"
+              value={customText}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.length <= 10) {
+                  setCustomText(value);
+                }
+              }}
+              placeholder="*MAXIMUM 10 CHARACTERS"
+              className="w-full px-4 py-3 border border-black rounded-none text-center text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black"
+              maxLength={10}
+            />
+            <p className="text-xs text-gray-500 text-center mt-2">
+              {customText.length}/10 characters
             </p>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Custom Text Input */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-2">Custom Text</label>
-          <input
-            type="text"
-            value={customText}
-            onChange={(e) => setCustomText(e.target.value)}
-            placeholder="Enter your name or text"
-            maxLength={20}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-          />
-          <p className="text-sm text-gray-500 mt-1">{customText.length}/10 characters</p>
-        </div>
-
-        {/* Error Message */}
+        {/* Error/Success Messages */}
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="w-full max-w-sm mt-4 p-3 bg-red-50 border border-red-200 rounded text-center">
             <p className="text-red-600 text-sm">{error}</p>
           </div>
         )}
 
-        {/* Success Message */}
         {successMessage && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="w-full max-w-sm mt-4 p-3 bg-green-50 border border-green-200 rounded text-center">
             <p className="text-green-600 text-sm">{successMessage}</p>
           </div>
         )}
+      </div>
 
-        {/* Generate Button */}
-        <button
-          onClick={handleGenerate}
-          disabled={isGenerating || !customText.trim()}
-          className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition disabled:bg-gray-300 disabled:cursor-not-allowed mb-4"
-        >
-          {isGenerating ? (
-            <span className="flex items-center justify-center">
-              <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Generating...
-            </span>
-          ) : (
-            'Generate Wallpaper'
-          )}
-        </button>
-
-        {/* Generated Wallpaper Preview */}
-        {generatedImage && (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-3">Your Wallpaper</h3>
-            <div className="bg-gray-100 p-4 rounded-lg mb-4">
-              <img
-                src={generatedImage}
-                alt="Generated wallpaper"
-                className="w-full rounded-lg shadow-lg"
-              />
-            </div>
-
-            {/* Action Buttons */}
-            <div className="space-y-3">
-              <button
-                onClick={() => sendToLine()}
-                disabled={isSending}
-                className="w-full bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isSending ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Sending to LINE...
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23z"/>
-                    </svg>
-                    Send to LINE Chat
-                  </>
-                )}
-              </button>
-
-              <button
-                onClick={handleDownload}
-                className="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Download Wallpaper
-              </button>
-            </div>
-          </div>
+      {/* Action Buttons */}
+      <div className="px-6 py-6 space-y-3">
+        {!generatedImage ? (
+          <>
+            <button
+              onClick={handleBack}
+              className="w-full border border-black text-black py-4 rounded-none text-sm font-medium tracking-wider hover:bg-gray-100 transition"
+            >
+              &lt; BACK
+            </button>
+            <button
+              onClick={handleGenerate}
+              disabled={isGenerating || !customText.trim()}
+              className="w-full bg-black text-white py-4 rounded-none text-sm font-medium tracking-wider hover:bg-gray-900 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {isGenerating ? 'GENERATING...' : 'SUBMIT'}
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => {
+              setGeneratedImage('');
+              setCustomText('');
+              setError('');
+              setSuccessMessage('');
+            }}
+            className="w-full bg-black text-white py-4 rounded-none text-sm font-medium tracking-wider hover:bg-gray-900 transition"
+          >
+            CREATE ANOTHER
+          </button>
         )}
       </div>
     </div>
