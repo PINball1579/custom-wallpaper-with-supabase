@@ -188,18 +188,16 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {/* Two preview wallpapers side by side */}
+        {/* Single large preview wallpaper */}
         <div className="px-6 mb-8">
-          <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-            {[selectedWallpaper || wallpapers[0], selectedWallpaper || wallpapers[1]].map((id, idx) => (
-              <div key={idx} className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src={`/wallpapers/${id}.jpg`}
-                  alt={`Preview ${idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+          <div className="max-w-sm mx-auto">
+            <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
+              <img
+                src={`/wallpapers/${selectedWallpaper || wallpapers[0]}.jpg`}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
 
@@ -272,6 +270,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
   // Step 2: Customize with Name
   if (step === 'customize') {
+    // Get the wallpaper config for text styling
+    const wallpaperConfig = WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS];
+
     return (
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header */}
@@ -305,32 +306,39 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {/* Two preview wallpapers with custom text */}
+        {/* Single large preview wallpaper with custom text */}
         <div className="px-6 mb-8">
-          <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-            {[0, 1].map((idx) => (
-              <div key={idx} className="space-y-3">
-                <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg relative">
-                  <img
-                    src={`/wallpapers/${selectedWallpaper}.jpg`}
-                    alt={`Preview ${idx + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                  {customText && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <p className="text-2xl font-bold text-gray-700" style={{ 
-                        fontFamily: '"NotoSansThai", "Sarabun", "Kanit", sans-serif'
-                      }}>
-                        {customText}
-                      </p>
-                    </div>
-                  )}
+          <div className="max-w-sm mx-auto">
+            <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg relative">
+              <img
+                src={`/wallpapers/${selectedWallpaper}.jpg`}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
+              {customText && wallpaperConfig && (
+                <div 
+                  className="absolute" 
+                  style={{
+                    left: '50%',
+                    top: '52.92%', // 1270/2400 = 52.92%
+                    transform: 'translate(-50%, -50%)',
+                    width: '100%',
+                    textAlign: 'center'
+                  }}
+                >
+                  <p 
+                    style={{ 
+                      fontSize: `${wallpaperConfig.fontSize / 12}px`, // Scale down for preview (1080px width -> ~90px base)
+                      color: wallpaperConfig.fontColor,
+                      fontFamily: '"NotoSansThai", "Sarabun", "Kanit", sans-serif',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {customText}
+                  </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-xs font-medium tracking-wider">{customText || 'CUSTOM NAME'}</p>
-                </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
         </div>
 
@@ -418,11 +426,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
   // Step 4: Complete
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      {/* Close button */}
-      <button className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center text-black text-2xl font-light">
-        ×
-      </button>
-
       {/* Header */}
       <div className="flex justify-center pt-12 pb-8">
         <img 
@@ -439,29 +442,22 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </h2>
       </div>
 
-      {/* Two final wallpapers side by side */}
+      {/* Single large final wallpaper */}
       <div className="px-6 mb-8">
-        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-          {[0, 1].map((idx) => (
-            <div key={idx} className="space-y-3">
-              <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src={generatedImage}
-                  alt={`Final ${idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="text-center">
-                <p className="text-xs font-medium tracking-wider">{customText}</p>
-              </div>
-            </div>
-          ))}
+        <div className="max-w-sm mx-auto">
+          <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
+            <img
+              src={generatedImage}
+              alt="Final wallpaper"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
 
       {successMessage && (
         <div className="px-6 mb-4">
-          <p className="text-green-600 text-sm text-center">{successMessage}</p>
+          <p className="text-green-600 text-sm text-center font-medium">{successMessage}</p>
         </div>
       )}
 
