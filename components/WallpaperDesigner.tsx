@@ -1,18 +1,46 @@
 'use client';
 
 import { useState } from 'react';
-import { WALLPAPER_CONFIGS } from '@/lib/wallpaperGenerator';
 
-interface WallpaperDesignerProps {
-  lineUserId: string;
-}
+// Mock config for demo
+const WALLPAPER_CONFIGS = {
+  wallpaper_1: {
+    fontSize: 100,
+    fontColor: '#586971',
+    textX: 570,
+    textY: 1270,
+  },
+  wallpaper_2: {
+    fontSize: 100,
+    fontColor: '#07203e',
+    textX: 570,
+    textY: 1270,
+  },
+  wallpaper_3: {
+    fontSize: 100,
+    fontColor: '#85898a',
+    textX: 570,
+    textY: 1270,
+  },
+  wallpaper_4: {
+    fontSize: 100,
+    fontColor: '#60625f',
+    textX: 570,
+    textY: 1270,
+  },
+  wallpaper_5: {
+    fontSize: 100,
+    fontColor: '#000000',
+    textX: 570,
+    textY: 1270,
+  },
+};
 
-export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps) {
+export default function WallpaperDesignerNoPreview() {
   const [step, setStep] = useState<'select' | 'customize' | 'generating' | 'complete'>('select');
   const [selectedWallpaper, setSelectedWallpaper] = useState<string>('');
   const [customText, setCustomText] = useState<string>('');
   const [generatedImage, setGeneratedImage] = useState<string>('');
-  const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -62,84 +90,15 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
       return;
     }
 
-    setIsGenerating(true);
-    setError('');
-    setSuccessMessage('');
     setStep('generating');
-
-    try {
-      const response = await fetch('/api/generate-wallpaper', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          wallpaperId: selectedWallpaper,
-          customText: customText.trim(),
-          lineUserId
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || data.details || 'Failed to generate wallpaper');
-      }
-
-      setGeneratedImage(data.image);
-      
-      // Automatically try to send to LINE
-      await sendToLine(data.imageBuffer);
-      
-      // Move to complete step
-      setStep('complete');
-      
-    } catch (err: any) {
-      console.error('Error generating wallpaper:', err);
-      setError(err.message || 'Failed to generate wallpaper');
-      setStep('customize');
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const sendToLine = async (imageBuffer?: string) => {
-    try {
-      const bufferToSend = imageBuffer || generatedImage.replace(/^data:image\/\w+;base64,/, '');
-
-      const uploadResponse = await fetch('/api/upload-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          imageBuffer: bufferToSend,
-          lineUserId
-        })
-      });
-
-      const uploadData = await uploadResponse.json();
-
-      if (!uploadResponse.ok) {
-        throw new Error(uploadData.error || 'Failed to upload image');
-      }
-
-      const sendResponse = await fetch('/api/send-to-line', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lineUserId,
-          imageUrl: uploadData.imageUrl
-        })
-      });
-
-      const sendData = await sendResponse.json();
-
-      if (!sendResponse.ok) {
-        throw new Error(sendData.error || 'Failed to send to LINE');
-      }
-
+    setError('');
+    
+    // Simulate generation
+    setTimeout(() => {
+      setGeneratedImage('/example_wallpaper.jpg');
       setSuccessMessage('Wallpaper sent to your LINE chat!');
-    } catch (err: any) {
-      console.error('Error sending to LINE:', err);
-      setError(err.message || 'Failed to send to LINE');
-    }
+      setStep('complete');
+    }, 2000);
   };
 
   const handleCreateAnother = () => {
@@ -268,16 +227,8 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     );
   }
 
-  // Step 2: Customize with Name (WITH PREVIEW - VERSION 1)
+  // Step 2: Customize with Name (NO PREVIEW - VERSION 2)
   if (step === 'customize') {
-    // Get the wallpaper config for text styling
-    const wallpaperConfig = WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS];
-
-    // Calculate the scale factor for preview
-    // Actual wallpaper is 1080px wide, preview container is roughly 384px (max-w-sm)
-    // But we need to scale based on the actual rendered size
-    const previewScale = 0.35; // Approximate scale: 384/1080 ≈ 0.355
-
     return (
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header */}
@@ -311,7 +262,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {/* Single large preview wallpaper with custom text */}
+        {/* Single large preview wallpaper WITHOUT custom text overlay */}
         <div className="px-6 mb-8">
           <div className="max-w-sm mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg relative">
@@ -320,30 +271,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 alt="Preview"
                 className="w-full h-full object-cover"
               />
-              {customText && wallpaperConfig && (
-                <div 
-                  className="absolute" 
-                  style={{
-                    left: '50%',
-                    top: `${(wallpaperConfig.textY / 2400) * 100}%`, // Use actual Y position from config
-                    transform: 'translate(-50%, -50%)',
-                    width: '100%',
-                    textAlign: 'center'
-                  }}
-                >
-                  <p 
-                    style={{ 
-                      fontSize: `${wallpaperConfig.fontSize * previewScale}px`, // Scale font properly
-                      color: wallpaperConfig.fontColor,
-                      fontFamily: '"NotoSansThai", "Sarabun", "Kanit", sans-serif',
-                      fontWeight: 'bold',
-                      letterSpacing: '0.05em'
-                    }}
-                  >
-                    {customText}
-                  </p>
-                </div>
-              )}
+              {/* No text overlay shown */}
             </div>
           </div>
         </div>
@@ -370,6 +298,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             className="w-full px-4 py-3 border border-gray-300 text-center text-sm placeholder-gray-400 focus:outline-none focus:border-black"
             maxLength={10}
           />
+          {/* Character counter */}
+          <p className="text-xs text-gray-500 text-center mt-2">
+            {customText.length}/10 characters
+          </p>
         </div>
 
         {error && (
