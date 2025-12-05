@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { WALLPAPER_CONFIGS } from '@/lib/wallpaperGenerator';
+import liff from '@line/liff';
 
 interface WallpaperDesignerProps {
   lineUserId: string;
@@ -446,10 +447,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
       )}
 
-      {/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
+{/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
       <div className="px-6 pb-8 mt-auto">
         <button
-          onClick={() => window.open('https://line.me/R/', '_blank')}
+          onClick={() => liff.closeWindow()}
           className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest"
         >
           GO TO THE CHAT WINDOW TO DOWNLOAD
