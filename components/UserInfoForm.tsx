@@ -148,7 +148,7 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
             </select>
           </div>
 
-          <div>
+<div>
             <label className="block text-sm mb-1 text-black">DATE OF BIRTH<span className="text-red-600 ml-1">*</span></label>
             <input
               type="date"
