@@ -8,15 +8,6 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-8">
-        {/* DIOR Logo */}
-        <div className="flex justify-center mb-8">
-          <img 
-            src="/Dior-Logo.png" 
-            alt="DIOR" 
-            className="h-16 w-auto object-contain"
-          />
-        </div>
-
         {/* Connected Text */}
         <div className="space-y-2">
           <h1 className="text-2xl font-light tracking-wide text-black">

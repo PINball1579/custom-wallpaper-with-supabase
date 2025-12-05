@@ -228,7 +228,7 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
           <p className="mb-3 text-black">PLEASE ENTER OTP</p>
 
           <form onSubmit={handleSubmit}>
-            <div className="flex justify-center gap-2 mb-4">
+            <div className="flex justify-center gap-2 mb-4 mx-4">
               {otp.map((digit, index) => (
                 <input
                   key={index}
