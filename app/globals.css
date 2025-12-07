@@ -78,3 +78,17 @@ input[type="date"] {
   height: 42px; /* adjust to match your design */
   line-height: normal;
 }
+
+/* Fix iOS Safari grey background on select + date inputs */
+select,
+input[type="date"] {
+  background-color: #ffffff !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Optional: Improve border style consistency */
+select {
+  background-image: none; /* remove native dropdown styling */
+}
+
