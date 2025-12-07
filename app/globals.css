@@ -29,6 +29,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -66,4 +67,14 @@
     @apply bg-background text-foreground;
     font-family: var(--font-tiktok-sans), system-ui, -apple-system, sans-serif;
   }
+}
+
+/* Fix iOS date input height */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-top: 0.5rem; /* same as other inputs */
+  padding-bottom: 0.5rem;
+  height: 42px; /* adjust to match your design */
+  line-height: normal;
 }
