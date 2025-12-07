@@ -69,26 +69,28 @@
   }
 }
 
-/* Fix iOS date input height */
-input[type="date"] {
-  -webkit-appearance: none;
-  appearance: none;
-  padding-top: 0.5rem; /* same as other inputs */
-  padding-bottom: 0.5rem;
-  height: 42px; /* adjust to match your design */
-  line-height: normal;
-}
-
-/* Fix iOS Safari grey background on select + date inputs */
+/* Remove native arrows on iOS and browsers */
 select,
 input[type="date"] {
-  background-color: #ffffff !important;
   -webkit-appearance: none !important;
+  -moz-appearance: none !important;
   appearance: none !important;
+  background-color: #ffffff !important;
 }
 
-/* Optional: Improve border style consistency */
-select {
-  background-image: none; /* remove native dropdown styling */
+/* Custom dropdown chevron icon */
+select,
+input[type="date"] {
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L8 8L15 1' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px;
+  padding-right: 2.5rem; /* space for the arrow */
 }
+
+/* Hide extra date picker icons on Chrome/Android */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
 
