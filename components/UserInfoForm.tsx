@@ -136,7 +136,7 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
   };
 
   const renderField = (field: FormField) => {
-    const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black text-base';
+    const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black';
 
     return (
       <div key={field.name}>
@@ -166,7 +166,6 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
             onChange={handleChange}
             className={inputClasses}
             required={field.required}
-            placeholder={field.type === 'date' ? 'dd/mm/yyyy' : ''}
           />
         )}
       </div>
@@ -175,14 +174,6 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <style jsx>{`
-        input[type="date"] {
-          display: block;
-          -webkit-appearance: none;
-          -moz-appearance: textfield;
-          min-height: 1.2em;
-        }
-      `}</style>
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="text-center">
           <div className="flex justify-center">
