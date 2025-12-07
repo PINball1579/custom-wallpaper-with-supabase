@@ -73,6 +73,9 @@
 input[type="date"] {
   -webkit-appearance: none;
   appearance: none;
+  padding-top: 0.5rem; /* same as other inputs */
+  padding-bottom: 0.5rem;
+  height: 42px; /* adjust to match your design */
   line-height: normal;
 }
 
