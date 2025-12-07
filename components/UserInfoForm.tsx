@@ -135,7 +135,7 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
     }
   };
 
-const renderField = (field: FormField) => {
+  const renderField = (field: FormField) => {
     const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black h-[42px] text-base';
 
     return (
@@ -175,6 +175,26 @@ const renderField = (field: FormField) => {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
+      <style jsx>{`
+        input[type="date"] {
+          min-height: 42px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+          background: transparent;
+          bottom: 0;
+          color: transparent;
+          cursor: pointer;
+          height: auto;
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: auto;
+        }
+      `}</style>
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="text-center">
           <div className="flex justify-center">
