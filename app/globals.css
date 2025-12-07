@@ -29,6 +29,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -68,42 +69,23 @@
   }
 }
 
-/* ⭐ Fix iOS Safari grey backgrounds + native UI */
-select,
+/* Fix iOS date input height */
 input[type="date"] {
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-  background-color: #ffffff !important;
-}
-
-/* 🎯 Custom chevron icon for select + date */
-select,
-input[type="date"] {
-  background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L8 8L15 1' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px;
-  padding-right: 2.5rem;
-}
-
-/* Hide default Chrome/Android date icons */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-/* Ensure date text is centered correctly */
-input[type="date"]::-webkit-datetime-edit {
+  -webkit-appearance: none;
+  appearance: none;
   line-height: normal;
 }
 
-/* Force consistent height with other inputs */
+/* Fix iOS Safari grey background on select + date inputs */
 select,
 input[type="date"] {
-  height: 48px !important;
-  line-height: 48px;
+  background-color: #ffffff !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
 }
+
+/* Optional: Improve border style consistency */
+select {
+  background-image: none; /* remove native dropdown styling */
+}
+
