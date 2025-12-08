@@ -170,17 +170,17 @@ export default function Home() {
       {step === 'landing' && (
         <div className="max-w-2xl mx-auto p-6">
           <div className="bg-white rounded-lg px-6 text-center">
-            <div className="flex justify-center">
+            <div className="flex justify-center pt-2 pb-4">
               <img 
                 src="/Dior-Logo.png" 
                 alt="DIOR" 
-                className="h-20 w-auto object-contain"
+                className="h-12 w-auto object-contain"
               />
             </div>
-            <p className="text-xl mb-3 text-black font-thin">DESIGN YOUR WALLPAPER</p>
+            <p className="text-lg tracking-widest text-black mb-3">DESIGN YOUR WALLPAPER</p>
             
             {/* Wallpaper Preview Image */}
-            <div className="aspect-[9/16] max-w-xs mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="aspect-[9/16] max-w-[200px] mx-auto bg-white rounded-lg shadow-md overflow-hidden">
               <img 
                 src="/example_wallpaper.jpg" 
                 alt="Example Wallpaper" 

@@ -136,9 +136,9 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
   };
 
 const renderField = (field: FormField) => {
-    const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black';
-    const selectClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10';
-    const dateClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10';
+    const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black text-md';
+    const selectClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10 text-md';
+    const dateClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10 text-md';
 
     return (
       <div key={field.name}>
@@ -201,14 +201,14 @@ const renderField = (field: FormField) => {
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white rounded-lg px-6">
         <div className="text-center">
-          <div className="flex justify-center">
-            <img src="/Dior-Logo.png" alt="DIOR" className="h-20 w-auto object-contain" />
+          <div className="flex justify-center pt-2 pb-4">
+            <img src="/Dior-Logo.png" alt="DIOR" className="h-12 w-auto object-contain" />
           </div>
         </div>
-        <p className="text-sm text-black mb-4">REQUIRED INFORMATION<span className="text-red-600 ml-1">*</span></p>
+        <p className="text-md text-black mb-4">REQUIRED INFORMATION<span className="text-red-600 ml-1">*</span></p>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
             {error}
           </div>
         )}

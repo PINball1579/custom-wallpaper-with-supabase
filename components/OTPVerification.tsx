@@ -202,11 +202,11 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white rounded-lg px-3">
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center pt-2 pb-4">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-20 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </div>
         <div className="text-center flex flex-col items-center">
