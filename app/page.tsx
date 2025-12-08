@@ -25,11 +25,11 @@ export default function Home() {
         if (!mounted) return;
 
         // Check if opened in LINE
-        // if (!liff.isInClient()) {
-        //   alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้น');
-        //   window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
-        //   return;
-        // }
+        if (!liff.isInClient()) {
+          alert('กรุณาเปิดลิงค์จากแอป LINE เท่านั้น');
+          window.location.href = 'https://line.me/R/ti/p/@809kdbpq';
+          return;
+        }
 
         // Check if user is logged in
         if (!liff.isLoggedIn()) {
