@@ -34,6 +34,17 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     setSuccessMessage('');
   };
 
+  const handleCloseComplete = () => {
+    // Reset all states and go back to select
+    setStep('select');
+    setSelectedWallpaper('');
+    setCustomText('');
+    setGeneratedImage('');
+    setError('');
+    setSuccessMessage('');
+    setStartIndex(0);
+  };
+
   const handlePrevWallpapers = () => {
     setStartIndex((prev) => {
       const newIndex = prev - 1;
@@ -143,15 +154,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     }
   };
 
-  // const handleCreateAnother = () => {
-  //   setStep('select');
-  //   setSelectedWallpaper('');
-  //   setCustomText('');
-  //   setGeneratedImage('');
-  //   setError('');
-  //   setSuccessMessage('');
-  // };
-
   // Step 1: Wallpaper Selection
   if (step === 'select') {
     const visibleWallpapers = getVisibleWallpapers();
@@ -189,7 +191,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {/* Single large preview wallpaper - Smaller size to match design */}
+        {/* Single large preview wallpaper */}
         <div className="px-6 mb-6">
           <div className="max-w-[200px] mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
@@ -277,7 +279,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     );
   }
 
-  // Step 2: Customize with Name (NO PREVIEW - VERSION 2)
+  // Step 2: Customize with Name
   if (step === 'customize') {
     return (
       <div className="min-h-screen bg-white flex flex-col">
@@ -321,7 +323,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 alt="Preview"
                 className="w-full h-full object-cover"
               />
-              {/* No text overlay shown */}
             </div>
           </div>
         </div>
@@ -349,10 +350,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             style={{ fontSize: '16px' }}
             maxLength={10}
           />
-          {/* Character counter */}
-          {/* <p className="text-xs text-gray-500 text-center mt-2">
-            {customText.length}/10 characters
-          </p> */}
         </div>
 
         {error && (
@@ -390,7 +387,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
   if (step === 'generating') {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center">
-
         {/* Dior Logo at the Top */}
         <div className="pt-6 pb-20 flex justify-center w-full">
           <img
@@ -417,7 +413,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             </div>
           </div>
         </div>
-
       </div>
     );
   }
@@ -426,13 +421,34 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="flex justify-center pt-2 mb-8">
+        {/* Header with close button */}
+        <div className="flex justify-between items-center pt-2 mb-8 px-4">
+          <div className="w-8"></div> {/* Spacer for centering */}
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
             className="h-12 w-auto object-contain"
           />
+          <button
+            onClick={handleCloseComplete}
+            className="w-8 h-8 flex items-center justify-center text-black hover:text-gray-600 transition"
+            aria-label="Close"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
 
         {/* White box container */}
@@ -453,12 +469,6 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             />
           </div>
         </div>
-
-        {/* {successMessage && (
-          <div className="mb-4">
-            <p className="text-green-600 text-sm text-center font-medium">{successMessage}</p>
-          </div>
-        )} */}
 
         {error && (
           <div className="mb-4">
