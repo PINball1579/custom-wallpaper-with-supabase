@@ -329,10 +329,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                   className="absolute inset-0 flex items-center justify-center pointer-events-none"
                   style={{
                     color: WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].fontColor,
-                    fontSize: `${WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].fontSize / 12}px`,
+                    fontSize: `${WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].fontSize / 3}px`,
                     fontWeight: 'bold',
                     textAlign: 'center',
-                    top: `${((WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].textY / 2400) * 100) - 5}%`,
+                    top: `${((WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].textY / 2400) * 100)}%`,
                     transform: 'translateY(-50%)',
                   }}
                 >
