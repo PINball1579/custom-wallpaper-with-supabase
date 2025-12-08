@@ -328,7 +328,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* ADD YOUR NAME button */}
         <div className="px-6 mb-6">
-          <button className="w-full bg-black text-white py-4 text-xl tracking-widest">
+          <button className="w-full bg-black text-white py-2 text-xl tracking-widest">
             ADD YOUR NAME
           </button>
         </div>
@@ -361,24 +361,24 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         )}
 
 {/* Action Buttons */}
-        <div className="px-6 pb-8 mt-auto flex items-center justify-center gap-4">
+        <div className="px-6 pb-8 mt-auto flex flex-col items-center gap-4">
           <button
             onClick={handleBack}
-            className="flex items-center justify-center gap-2 bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition"
+            className="flex items-center justify-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest hover:bg-gray-800 transition"
           >
             <img
               src="/chevron.png"
               alt="Back"
-              className="w-4 h-4 rotate-90 invert"
+              className="w-6 h-6 rotate-90 invert"
             />
-            <span className="text-lg tracking-wider">BACK</span>
+            <span>BACK</span>
           </button>
           <button
             onClick={handleGenerate}
             disabled={!customText.trim()}
-            className="flex items-center justify-center bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
+            className="flex items-center justify-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest hover:bg-gray-800 disabled:bg-gray-400 transition"
           >
-            <span className="text-lg tracking-wider">SUBMIT</span>
+            SUBMIT
           </button>
         </div>
       </div>
