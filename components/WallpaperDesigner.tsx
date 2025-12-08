@@ -454,11 +454,11 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {successMessage && (
+        {/* {successMessage && (
           <div className="mb-4">
             <p className="text-green-600 text-sm text-center font-medium">{successMessage}</p>
           </div>
-        )}
+        )} */}
 
         {error && (
           <div className="mb-4">
