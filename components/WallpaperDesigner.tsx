@@ -416,29 +416,30 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     );
   }
 
-  // Step 4: Complete
+// Step 4: Complete
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Header */}
-      <div className="flex justify-center pt-12 pb-8">
-        <img
-          src="/Dior-Logo.png"
-          alt="DIOR"
-          className="h-16 w-auto object-contain"
-        />
-      </div>
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="flex justify-center mb-8">
+          <img
+            src="/Dior-Logo.png"
+            alt="DIOR"
+            className="h-16 w-auto object-contain"
+          />
+        </div>
 
-      {/* Title */}
-      <div className="text-center mb-8">
-        <h2 className="text-base font-normal tracking-widest text-black">
-          YOUR WALLPAPER IS READY
-        </h2>
-      </div>
+        {/* White box container */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+          {/* Title */}
+          <div className="text-center mb-6">
+            <h2 className="text-lg font-normal tracking-widest text-black">
+              YOUR WALLPAPER IS READY
+            </h2>
+          </div>
 
-      {/* Single large final wallpaper */}
-      <div className="px-6 mb-8">
-        <div className="max-w-sm mx-auto">
-          <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
+          {/* Final wallpaper preview */}
+          <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-md">
             <img
               src={generatedImage}
               alt="Final wallpaper"
@@ -446,25 +447,23 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             />
           </div>
         </div>
-      </div>
 
-      {successMessage && (
-        <div className="px-6 mb-4">
-          <p className="text-green-600 text-sm text-center font-medium">{successMessage}</p>
-        </div>
-      )}
+        {successMessage && (
+          <div className="mb-4">
+            <p className="text-green-600 text-sm text-center font-medium">{successMessage}</p>
+          </div>
+        )}
 
-      {error && (
-        <div className="px-6 mb-4">
-          <p className="text-red-600 text-sm text-center">{error}</p>
-        </div>
-      )}
+        {error && (
+          <div className="mb-4">
+            <p className="text-red-600 text-sm text-center">{error}</p>
+          </div>
+        )}
 
-      {/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
-      <div className="px-6 pb-8 mt-auto">
+        {/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
         <button
           onClick={() => liff.closeWindow()}
-          className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest"
+          className="w-full bg-black text-white py-4 rounded-lg text-base font-medium tracking-widest hover:bg-gray-900 transition"
         >
           GO TO THE CHAT WINDOW TO DOWNLOAD
         </button>
