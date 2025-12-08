@@ -360,25 +360,25 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div className="px-6 pb-8 mt-auto flex flex-col justify-center gap-2">
+{/* Action Buttons */}
+        <div className="px-6 pb-8 mt-auto flex items-center justify-center gap-4">
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest"
+            className="flex items-center justify-center gap-2 bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition"
           >
-            BACK
             <img
               src="/chevron.png"
               alt="Back"
-              className="w-6 h-6 -rotate-90 invert"
+              className="w-4 h-4 rotate-90 invert"
             />
+            <span className="text-lg tracking-wider">BACK</span>
           </button>
           <button
             onClick={handleGenerate}
             disabled={!customText.trim()}
-            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest disabled:bg-gray-400"
+            className="flex items-center justify-center bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
           >
-            SUBMIT
+            <span className="text-lg tracking-wider">SUBMIT</span>
           </button>
         </div>
       </div>
