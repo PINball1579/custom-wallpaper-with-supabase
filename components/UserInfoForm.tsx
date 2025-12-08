@@ -86,6 +86,15 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Get today's date in YYYY-MM-DD format for max date validation
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -174,6 +183,7 @@ const renderField = (field: FormField) => {
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleChange}
+              max={getTodayDate()}
               className={dateClasses}
               required={field.required}
             />
