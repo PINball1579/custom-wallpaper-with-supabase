@@ -250,14 +250,15 @@ const renderField = (field: FormField) => {
             </label>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-64 bg-black text-lg text-white py-2 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition "
-            
-          >
-            {loading ? 'Sending OTP...' : 'SUBMIT'}
-          </button>
+          <div className="flex justify-center pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-64 bg-black text-lg text-white py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
+            >
+              {loading ? 'Sending OTP...' : 'SUBMIT'}
+            </button>
+          </div>
         </form>
       </div>
     </div>
