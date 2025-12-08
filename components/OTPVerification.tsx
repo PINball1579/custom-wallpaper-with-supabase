@@ -200,35 +200,35 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg px-3">
-        <div className="flex justify-center pt-2 pb-4">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gray-50">
+      <div className="w-full max-w-md bg-white rounded-lg px-6 py-8">
+        <div className="flex justify-center mb-12">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-12 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
         </div>
         <div className="text-center flex flex-col items-center">
-          <p className="text-black text-xl mb-4">PHONE NUMBER VERIFICATION</p>
+          <p className="text-black text-xl mb-8 tracking-wide">PHONE NUMBER VERIFICATION</p>
           <p className="text-sm text-black mb-2">
             An OTP was sent to verify<br />
             your phone number.
           </p>
-          <p className="text-base text-black font-semibold mb-8">
+          <p className="text-lg text-black font-semibold mb-10">
             {formatPhoneNumber(phoneNumber)}
           </p>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm w-full">
               {error}
             </div>
           )}
 
-          <p className="mb-3 text-black">PLEASE ENTER OTP</p>
+          <p className="mb-6 text-black font-medium tracking-wide">PLEASE ENTER OTP</p>
 
-          <form onSubmit={handleSubmit}>
-            <div className="flex justify-center gap-2 mb-4 mx-4">
+          <form onSubmit={handleSubmit} className="w-full">
+            <div className="flex justify-center gap-3 mb-6">
               {otp.map((digit, index) => (
                 <input
                   key={index}
@@ -242,15 +242,15 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={handlePaste}
                   autoComplete={index === 0 ? "one-time-code" : "off"}
-                  className="w-12 h-16 text-center text-2xl border-2 rounded-lg focus:ring-2 focus:ring-black focus:border-black text-black"
+                  className="w-14 h-20 text-center text-3xl border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black text-black"
                   aria-label={`OTP digit ${index + 1}`}
                 />
               ))}
             </div>
 
             {/* Reference Code */}
-            <div className="text-center mb-6">
-              <p className="text-sm text-gray-600">
+            <div className="text-center mb-8">
+              <p className="text-sm text-gray-500 tracking-wide">
                 REFERENCE CODE : <span className="font-semibold text-black">{currentReferenceCode}</span>
               </p>
             </div>
@@ -258,16 +258,16 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
             <button
               type="submit"
               disabled={loading || otp.join('').length !== 6}
-              className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
+              className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-4 font-medium text-lg tracking-wide"
             >
               {loading ? 'Verifying...' : 'SUBMIT'}
             </button>
 
             {/* Resend Timer */}
-            <div className="text-center mb-3">
+            <div className="text-center mb-4">
               {timer > 0 ? (
-                <p className="text-sm text-gray-500">
-                  RESEND OTP IN <strong>{formatTime(timer)}</strong>
+                <p className="text-sm text-gray-500 tracking-wide">
+                  RESEND OTP IN <strong className="text-black">{formatTime(timer)}</strong>
                 </p>
               ) : (
                 <p className="text-sm text-red-600">OTP expired</p>
@@ -279,7 +279,7 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
                 type="button"
                 onClick={handleResend}
                 disabled={loading}
-                className="w-full border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition text-sm underline"
+                className="w-full border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition text-sm underline tracking-wide"
               >
                 RESEND OTP
               </button>
