@@ -13,6 +13,7 @@ export default function Home() {
   const [userData, setUserData] = useState<any>(null);
   const [referenceCode, setReferenceCode] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
@@ -41,7 +42,9 @@ export default function Home() {
 
         if (mounted) {
           setLineUserId(profile.userId);
-          setStep('landing');
+          
+          // Check if user is already registered
+          await checkUserRegistration(profile.userId);
         }
       } catch (error) {
         console.error('LIFF initialization failed', error);
@@ -57,6 +60,38 @@ export default function Home() {
       mounted = false;
     };
   }, []);
+
+  // Check if user is already registered in the database
+  const checkUserRegistration = async (userId: string) => {
+    try {
+      console.log('🔍 Checking user registration status...');
+      
+      const response = await fetch('/api/check-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lineUUID: userId })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.registered) {
+        console.log('✅ User is already registered');
+        setIsRegistered(true);
+        setUserData(data.user);
+        // Skip to connected page for registered users
+        setStep('connected');
+      } else {
+        console.log('ℹ️ New user - show landing page');
+        setIsRegistered(false);
+        // Show landing page for new users
+        setStep('landing');
+      }
+    } catch (error) {
+      console.error('❌ Error checking user registration:', error);
+      // If check fails, show landing page as fallback
+      setStep('landing');
+    }
+  };
 
   const handleStartClick = () => {
     setStep('form');
@@ -86,6 +121,9 @@ export default function Home() {
       if (!response.ok) {
         throw new Error(data.error || 'Failed to save user data');
       }
+
+      // Mark as registered
+      setIsRegistered(true);
 
       // Proceed to connected page
       setStep('connected');
