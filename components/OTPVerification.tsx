@@ -198,19 +198,18 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-
-  return (
-    <div className="max-w-2xl mx-auto p-6 flex flex-col min-h-screen">
+return (
+    <div className="max-w-2xl mx-auto p-6">
 
 
       {/* Logo stays at the top */}
-      <div className="flex justify-center pt-2 pb-4">
+      <div className="flex justify-center pt-2 pb-8">
         <img src="/Dior-Logo.png" alt="DIOR" className="h-12 w-auto object-contain" />
       </div>
 
 
-      {/* Everything else is centered */}
-      <div className="flex flex-col justify-center flex-grow">
+      {/* Content starts from top, not centered */}
+      <div className="mt-8">
         <div className="text-center flex flex-col items-center">
           <p className="text-black text-xl mb-4">PHONE NUMBER VERIFICATION</p>
           <p className="text-sm text-black mb-2">
