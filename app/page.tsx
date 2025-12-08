@@ -44,7 +44,7 @@ export default function Home() {
           setLineUserId(profile.userId);
           
           // Check if user is already registered
-          // await checkUserRegistration(profile.userId);
+          await checkUserRegistration(profile.userId);
         }
       } catch (error) {
         console.error('LIFF initialization failed', error);
