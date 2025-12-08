@@ -431,31 +431,33 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* White box container */}
-        <div className="bg-white rounded-2xl p-6 mb-6 relative" style={{ boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)' }}>
-          {/* Close button - top right inside box */}
-          <button
-            onClick={handleCloseComplete}
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-black hover:text-gray-600 transition"
-            aria-label="Close"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+        <div className="bg-white rounded-2xl p-6 mb-6 flex flex-col" style={{ boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)' }}>
+          {/* Close button - first row, right aligned */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={handleCloseComplete}
+              className="w-8 h-8 flex items-center justify-center text-black hover:text-gray-600 transition"
+              aria-label="Close"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
 
-          {/* Title */}
-          <div className="text-center mb-6 mt-2">
+          {/* Title - second row, center aligned */}
+          <div className="text-center mb-6">
             <h2 className="text-lg font-normal tracking-widest text-black">
               YOUR WALLPAPER IS READY
             </h2>
