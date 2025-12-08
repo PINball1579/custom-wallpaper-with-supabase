@@ -200,8 +200,8 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
   };
 
   return (
-    <div className="max-w-md mx-auto p-6">
-      <div className="bg-white rounded-lg px-6">
+    <div className="max-w-2xl mx-auto p-6">
+      <div className="bg-white rounded-lg px-3">
         <div className="flex justify-center mb-8">
           <img
             src="/Dior-Logo.png"
