@@ -431,7 +431,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* White box container */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-2xl p-6 mb-6">
           {/* Title */}
           <div className="text-center mb-6">
             <h2 className="text-lg font-normal tracking-widest text-black">
