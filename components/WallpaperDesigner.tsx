@@ -159,7 +159,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     return (
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header with DIOR logo */}
-        <div className="flex justify-center pb-8">
+        <div className="flex justify-center pt-2 pb-6">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
@@ -169,7 +169,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* Title */}
         <div className="text-center mb-6">
-          <h2 className="text-xl tracking-widest text-black">
+          <h2 className="text-lg tracking-widest text-black">
             CHOOSE A WALLPAPER PATTERN
           </h2>
         </div>
@@ -313,8 +313,8 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Single large preview wallpaper WITHOUT custom text overlay */}
-        <div className="px-6 mb-8">
-          <div className="max-w-sm mx-auto">
+        <div className="px-6 mb-6">
+          <div className="max-w-[200px] mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg relative">
               <img
                 src={`/wallpapers/${selectedWallpaper}.jpg`}
@@ -350,9 +350,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             maxLength={10}
           />
           {/* Character counter */}
-          <p className="text-xs text-gray-500 text-center mt-2">
+          {/* <p className="text-xs text-gray-500 text-center mt-2">
             {customText.length}/10 characters
-          </p>
+          </p> */}
         </div>
 
         {error && (
