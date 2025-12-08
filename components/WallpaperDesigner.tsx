@@ -204,7 +204,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* DESIGN WALLPAPER button */}
         <div className="px-6 mb-8">
-          <button className="w-full bg-black text-white py-4 text-xl font-medium tracking-widest">
+          <button className="w-full bg-black text-white py-2 text-xl font-medium tracking-widest">
             DESIGN WALLPAPER
           </button>
         </div>
@@ -361,10 +361,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         )}
 
         {/* Action Buttons */}
-        <div className="px-6 pb-8 mt-auto space-y-3">
+        <div className="px-6 pb-8 mt-auto space-y-3 justify-center">
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 w-full bg-black text-white px-16 py-2 text-xl tracking-widest"
+            className="flex items-center gap-2 bg-black text-white px-16 py-2 text-xl tracking-widest"
           >
             BACK
             <img
