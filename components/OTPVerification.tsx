@@ -200,92 +200,95 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 flex flex-col min-h-screen">
+    <div className="max-w-2xl mx-auto p-6 min-h-screen flex flex-col">
 
 
-      {/* Logo stays at the top */}
-      <div className="flex justify-center pt-2 pb-4">
-        <img src="/Dior-Logo.png" alt="DIOR" className="h-12 w-auto object-contain" />
+      {/* Logo at the top */}
+      <div className="flex justify-center pt-6 pb-8">
+        <img src="/Dior-Logo.png" alt="DIOR" className="h-14 w-auto object-contain" />
       </div>
 
 
-      {/* Everything else is centered */}
-      <div className="flex flex-col justify-center flex-grow">
-        <div className="text-center flex flex-col items-center">
-          <p className="text-black text-xl mb-4">PHONE NUMBER VERIFICATION</p>
-          <p className="text-sm text-black mb-2">
-            An OTP was sent to verify<br />
-            your phone number.
+      {/* Content moved slightly upward */}
+      <div className="flex flex-col items-center mt-10">
+
+        <p className="text-black text-xl mb-4 tracking-wide">
+          PHONE NUMBER VERIFICATION
+        </p>
+
+        <p className="text-sm text-black mb-3 leading-tight text-center">
+          An OTP was sent to verify<br />
+          your phone number.
+        </p>
+
+        <p className="text-base text-black font-semibold mb-10">
+          {formatPhoneNumber(phoneNumber)}
+        </p>
+
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm w-80 text-center">
+            {error}
+          </div>
+        )}
+
+        <p className="mb-3 text-black tracking-wide">PLEASE ENTER OTP</p>
+
+        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
+
+          <div className="flex justify-center gap-2 mb-5">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                ref={el => { inputRefs.current[index] = el; }}
+                type="tel"
+                inputMode="numeric"
+                pattern="\d*"
+                maxLength={1}
+                value={digit}
+                onChange={e => handleChange(index, e.target.value)}
+                onKeyDown={e => handleKeyDown(index, e)}
+                onPaste={handlePaste}
+                autoComplete={index === 0 ? 'one-time-code' : 'off'}
+                className="w-12 h-16 text-center text-2xl border border-black rounded-md focus:ring-1 focus:ring-black text-black"
+              />
+            ))}
+          </div>
+
+          <p className="text-sm text-gray-600 mb-8">
+            REFERENCE CODE : <span className="font-semibold text-black">{currentReferenceCode}</span>
           </p>
-          <p className="text-base text-black font-semibold mb-8">
-            {formatPhoneNumber(phoneNumber)}
-          </p>
 
+          {/* Centered submit button */}
+          <button
+            type="submit"
+            disabled={loading || otp.join('').length !== 6}
+            className="w-64 py-3 text-lg bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-5"
+          >
+            {loading ? 'Verifying...' : 'SUBMIT'}
+          </button>
 
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">{error}</div>
-          )}
-
-
-          <p className="mb-3 text-black">PLEASE ENTER OTP</p>
-
-
-          <form onSubmit={handleSubmit}>
-            <div className="flex justify-center gap-2 mb-4 mx-4">
-              {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={el => { inputRefs.current[index] = el; }}
-                  type="tel"
-                  inputMode="numeric"
-                  pattern="\d*"
-                  maxLength={6}
-                  value={digit}
-                  onChange={e => handleChange(index, e.target.value)}
-                  onKeyDown={e => handleKeyDown(index, e)}
-                  onPaste={handlePaste}
-                  autoComplete={index === 0 ? 'one-time-code' : 'off'}
-                  className="w-12 h-16 text-center text-2xl border-2 rounded-lg focus:ring-2 focus:ring-black focus:border-black text-black"
-                />
-              ))}
-            </div>
-
-
-            <div className="text-center mb-6">
-              <p className="text-sm text-gray-600">REFERENCE CODE : <span className="font-semibold text-black">{currentReferenceCode}</span></p>
-            </div>
-
-
-            <button
-              type="submit"
-              disabled={loading || otp.join('').length !== 6}
-              className="w-64 flex items-center justify-center gap-2 py-2 text-xl bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
-            >
-              {loading ? 'Verifying...' : 'SUBMIT'}
-            </button>
-
-
-            <div className="text-center mb-3">
-              {timer > 0 ? (
-                <p className="text-sm text-gray-500">RESEND OTP IN <strong>{formatTime(timer)}</strong></p>
-              ) : (
-                <p className="text-sm text-red-600">OTP expired</p>
-              )}
-            </div>
-
-
-            {canResend && (
-              <button
-                type="button"
-                onClick={handleResend}
-                disabled={loading}
-                className="w-full border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition text-sm underline"
-              >
-                RESEND OTP
-              </button>
+          <div className="text-center mb-4">
+            {timer > 0 ? (
+              <p className="text-sm text-gray-500">
+                RESEND OTP IN <strong>{formatTime(timer)}</strong>
+              </p>
+            ) : (
+              <p className="text-sm text-red-600">OTP expired</p>
             )}
-          </form>
-        </div>
+          </div>
+
+          {canResend && (
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={loading}
+              className="text-black underline text-sm hover:text-gray-800"
+            >
+              RESEND OTP
+            </button>
+          )}
+        </form>
       </div>
     </div>
   );
