@@ -175,7 +175,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Progress Indicator */}
-        <div className="flex justify-center items-center gap-3 mb-2">
+        <div className="flex justify-center items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-base font-medium">
             1
           </div>
@@ -298,7 +298,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Progress Indicator */}
-        <div className="flex justify-center items-center gap-3 mb-2">
+        <div className="flex justify-center items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full border-2 border-gray-300 text-gray-300 flex items-center justify-center text-base font-medium">
             1
           </div>
