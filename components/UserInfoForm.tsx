@@ -138,7 +138,7 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
 const renderField = (field: FormField) => {
     const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black';
     const selectClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10';
-    const dateClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10 text-left';
+    const dateClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10';
 
     return (
       <div key={field.name}>

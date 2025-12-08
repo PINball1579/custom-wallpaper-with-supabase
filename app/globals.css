@@ -92,3 +92,8 @@ select {
   background-image: none; /* remove native dropdown styling */
 }
 
+/* Force date text to align left on iOS Safari */
+input[type="date"] {
+  text-align: left !important;
+  text-align-last: left !important;
+}
