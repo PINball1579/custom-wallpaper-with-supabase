@@ -189,7 +189,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-{/* Single large preview wallpaper - Smaller size to match design */}
+        {/* Single large preview wallpaper - Smaller size to match design */}
         <div className="px-6 mb-6">
           <div className="max-w-[200px] mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
@@ -333,7 +333,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </button>
         </div>
 
-{/* Input field */}
+        {/* Input field */}
         <div className="px-6 mb-8">
           <input
             type="text"
@@ -361,7 +361,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         )}
 
-{/* Action Buttons */}
+        {/* Action Buttons */}
         <div className="px-6 pb-8 mt-auto flex flex-col items-center gap-4">
           <button
             onClick={handleBack}
@@ -389,22 +389,26 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
   // Step 3: Generating (Loading state)
   if (step === 'generating') {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-        <div className="flex justify-center mb-8">
+      <div className="min-h-screen bg-white flex flex-col items-center">
+
+        {/* Dior Logo at the Top */}
+        <div className="pt-6 pb-20 flex justify-center w-full">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-12 w-auto object-contain"
+            className="h-14 w-auto object-contain"
           />
         </div>
 
-        <div className="text-center mb-8">
-          <h2 className="text-lg font-normal tracking-widest text-black mb-8">
-            IN PROGRESS......
+        {/* Middle Content */}
+        <div className="flex-1 flex flex-col justify-center items-center text-center -mt-20">
+          {/* IN PROGRESS TEXT */}
+          <h2 className="text-lg tracking-widest text-black mb-10">
+            IN PROGRESS.......
           </h2>
 
-          {/* Animated loading spinner */}
-          <div className="relative w-24 h-24 mx-auto">
+          {/* Loading Spinner */}
+          <div className="relative w-24 h-24">
             <div className="absolute inset-0">
               <div className="w-full h-full border-4 border-gray-200 rounded-full"></div>
             </div>
@@ -413,11 +417,12 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
             </div>
           </div>
         </div>
+
       </div>
     );
   }
 
-// Step 4: Complete
+  // Step 4: Complete
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
