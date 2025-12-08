@@ -209,39 +209,43 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </button>
         </div>
 
-        {/* Wallpaper carousel with 4 options */}
+{/* Wallpaper carousel with 4 options */}
         <div className="px-6 mb-8">
           <div className="relative max-w-2xl mx-auto">
             {/* Left Arrow */}
             <button
               onClick={handlePrevWallpapers}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 w-10 h-10 flex items-center justify-center text-black"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 flex items-center justify-center"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <img 
+                src="/chevron.png" 
+                alt="Previous" 
+                className="w-4 h-4 rotate-90"
+              />
             </button>
 
             {/* Right Arrow */}
             <button
               onClick={handleNextWallpapers}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 w-10 h-10 flex items-center justify-center text-black"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 flex items-center justify-center"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <img 
+                src="/chevron.png" 
+                alt="Next" 
+                className="w-4 h-4 -rotate-90"
+              />
             </button>
 
             {/* 4 Wallpapers Grid */}
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-2">
               {visibleWallpapers.map((id) => (
                 <button
                   key={id}
                   onClick={() => setSelectedWallpaper(id)}
-                  className={`aspect-[9/16] rounded-lg overflow-hidden border-2 transition ${
+                  className={`aspect-[9/16] rounded overflow-hidden border transition ${
                     selectedWallpaper === id
-                      ? 'border-black ring-2 ring-black'
-                      : 'border-gray-200'
+                      ? 'border-2 border-black'
+                      : 'border border-gray-300'
                   }`}
                 >
                   <img
