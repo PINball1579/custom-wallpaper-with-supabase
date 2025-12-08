@@ -62,36 +62,36 @@ export default function Home() {
   }, []);
 
   // Check if user is already registered in the database
-  const checkUserRegistration = async (userId: string) => {
-    try {
-      console.log('🔍 Checking user registration status...');
+  // const checkUserRegistration = async (userId: string) => {
+  //   try {
+  //     console.log('🔍 Checking user registration status...');
       
-      const response = await fetch('/api/check-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lineUUID: userId })
-      });
+  //     const response = await fetch('/api/check-user', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ lineUUID: userId })
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (response.ok && data.registered) {
-        console.log('✅ User is already registered');
-        setIsRegistered(true);
-        setUserData(data.user);
-        // Skip to connected page for registered users
-        setStep('connected');
-      } else {
-        console.log('ℹ️ New user - show landing page');
-        setIsRegistered(false);
-        // Show landing page for new users
-        setStep('landing');
-      }
-    } catch (error) {
-      console.error('❌ Error checking user registration:', error);
-      // If check fails, show landing page as fallback
-      setStep('landing');
-    }
-  };
+  //     if (response.ok && data.registered) {
+  //       console.log('✅ User is already registered');
+  //       setIsRegistered(true);
+  //       setUserData(data.user);
+  //       // Skip to connected page for registered users
+  //       setStep('connected');
+  //     } else {
+  //       console.log('ℹ️ New user - show landing page');
+  //       setIsRegistered(false);
+  //       // Show landing page for new users
+  //       setStep('landing');
+  //     }
+  //   } catch (error) {
+  //     console.error('❌ Error checking user registration:', error);
+  //     // If check fails, show landing page as fallback
+  //     setStep('landing');
+  //   }
+  // };
 
   const handleStartClick = () => {
     setStep('form');
