@@ -314,7 +314,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {/* Single large preview wallpaper WITHOUT custom text overlay */}
+{/* Single large preview wallpaper WITH custom text overlay */}
         <div className="px-6 mb-6">
           <div className="max-w-[200px] mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg relative">
@@ -323,6 +323,22 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 alt="Preview"
                 className="w-full h-full object-cover"
               />
+              {/* Text overlay preview */}
+              {customText && (
+                <div
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  style={{
+                    color: WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].fontColor,
+                    fontSize: `${WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].fontSize / 19}px`,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    top: `${(WALLPAPER_CONFIGS[selectedWallpaper as keyof typeof WALLPAPER_CONFIGS].textY / 2400) * 100}%`,
+                    transform: 'translateY(-50%)',
+                  }}
+                >
+                  {customText}
+                </div>
+              )}
             </div>
           </div>
         </div>
