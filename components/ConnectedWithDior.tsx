@@ -17,7 +17,7 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
             <img 
               src="/Dior-Logo.png" 
               alt="DIOR" 
-              className="h-28 w-auto object-contain"
+              className="h-24 w-auto object-contain"
             />
           </div>
         </div>
