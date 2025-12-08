@@ -327,8 +327,8 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* ADD YOUR NAME button */}
-        <div className="px-6 mb-6">
-          <button className="w-full bg-black text-white py-2 text-xl tracking-widest">
+        <div className="px-6 mb-8">
+          <button className="w-full bg-black text-white py-2 text-lg font-medium tracking-widest">
             ADD YOUR NAME
           </button>
         </div>
