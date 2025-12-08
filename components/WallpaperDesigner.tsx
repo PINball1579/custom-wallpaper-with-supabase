@@ -163,7 +163,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-16 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </div>
 
@@ -191,7 +191,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
 {/* Single large preview wallpaper - Smaller size to match design */}
         <div className="px-6 mb-6">
-          <div className="max-w-[280px] mx-auto">
+          <div className="max-w-[200px] mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
               <img
                 src={`/wallpapers/${selectedWallpaper || wallpapers[0]}.jpg`}

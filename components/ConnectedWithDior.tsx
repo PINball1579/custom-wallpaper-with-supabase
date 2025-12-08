@@ -18,7 +18,7 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
         <img
           src="/Dior-Logo.png"
           alt="DIOR"
-          className="h-20 w-auto mt-2 object-contain"
+          className="h-16 w-auto mt-2 object-contain"
         />
       </div>
 
@@ -31,7 +31,7 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
 
         <button
           onClick={onContinue}
-          className="w-full bg-black text-white py-3 rounded-xl text-lg tracking-wide hover:bg-gray-900 transition-colors"
+          className="w-full bg-black text-white py-2 rounded-xl text-xl tracking-wide hover:bg-gray-900 transition-colors"
         >
           DESIGN WALLPAPER
         </button>
