@@ -282,7 +282,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     return (
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header */}
-        <div className="flex justify-center pt-2 pb-8">
+        <div className="flex justify-center pt-2 pb-4">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
@@ -291,7 +291,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Title */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-2">
           <h2 className="text-xl tracking-widest text-black">
             ADD YOUR NAME
           </h2>
@@ -299,7 +299,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* Progress Indicator */}
         <div className="flex justify-center items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-full border-2 border-gray-300 text-gray-300 flex items-center justify-center text-base font-medium">
+          <div className="w-8 h-8 rounded-full border-2 border-gray-300 text-gray-300 flex items-center justify-center text-base font-medium">
             1
           </div>
           <div className="flex items-center gap-1">
@@ -307,7 +307,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
               <div key={i} className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
             ))}
           </div>
-          <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-base font-medium">
+          <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-base font-medium">
             2
           </div>
         </div>
