@@ -361,22 +361,22 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         )}
 
         {/* Action Buttons */}
-        <div className="px-6 pb-8 mt-auto space-y-3 justify-center">
+        <div className="px-6 pb-8 mt-auto space-y-3 flex justify-center">
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 bg-black text-white px-16 py-2 text-xl tracking-widest"
+            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest"
           >
             BACK
             <img
               src="/chevron.png"
-              alt="Next"
+              alt="Back"
               className="w-6 h-6 -rotate-90 invert"
             />
           </button>
           <button
             onClick={handleGenerate}
             disabled={!customText.trim()}
-            className="w-full bg-black text-white px-16 py-2 text-xl tracking-widest disabled:bg-gray-400"
+            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest disabled:bg-gray-400"
           >
             SUBMIT
           </button>
