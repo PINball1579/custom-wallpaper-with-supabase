@@ -211,33 +211,21 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
 {/* Wallpaper carousel with 4 options */}
         <div className="px-6 mb-8">
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative flex items-center justify-center gap-4">
             {/* Left Arrow */}
             <button
               onClick={handlePrevWallpapers}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 flex items-center justify-center"
+              className="flex-shrink-0"
             >
               <img 
                 src="/chevron.png" 
                 alt="Previous" 
-                className="w-4 h-4 rotate-90"
-              />
-            </button>
-
-            {/* Right Arrow */}
-            <button
-              onClick={handleNextWallpapers}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 flex items-center justify-center"
-            >
-              <img 
-                src="/chevron.png" 
-                alt="Next" 
-                className="w-4 h-4 -rotate-90"
+                className="w-8 h-8 rotate-90"
               />
             </button>
 
             {/* 4 Wallpapers Grid */}
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-2 max-w-md">
               {visibleWallpapers.map((id) => (
                 <button
                   key={id}
@@ -256,6 +244,18 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 </button>
               ))}
             </div>
+
+            {/* Right Arrow */}
+            <button
+              onClick={handleNextWallpapers}
+              className="flex-shrink-0"
+            >
+              <img 
+                src="/chevron.png" 
+                alt="Next" 
+                className="w-8 h-8 -rotate-90"
+              />
+            </button>
           </div>
         </div>
 
