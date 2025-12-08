@@ -168,7 +168,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Title */}
-        <div className="text-center mb-2">
+        <div className="text-center mb-3">
           <h2 className="text-lg tracking-widest text-black">
             CHOOSE A WALLPAPER PATTERN
           </h2>
@@ -291,7 +291,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Title */}
-        <div className="text-center mb-2">
+        <div className="text-center mb-3">
           <h2 className="text-xl tracking-widest text-black">
             ADD YOUR NAME
           </h2>
