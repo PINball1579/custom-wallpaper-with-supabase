@@ -24,7 +24,7 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
 
       {/* Bottom section */}
       <div className="w-full space-y-6 pb-6">
-        <p className="text-sm text-black leading-relaxed">
+        <p className="text-md text-black leading-relaxed">
           ENJOY A UNIQUE EXPERIENCE WITH<br />
           OUR CAPTIVATING WALLPAPER DESIGNS
         </p>

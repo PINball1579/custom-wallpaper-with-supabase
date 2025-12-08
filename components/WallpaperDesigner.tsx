@@ -204,7 +204,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* DESIGN WALLPAPER button */}
         <div className="px-6 mb-8">
-          <button className="w-full bg-black text-white py-2 text-xl font-medium tracking-widest">
+          <button className="w-full bg-black text-white py-2 text-lg font-medium tracking-widest">
             DESIGN WALLPAPER
           </button>
         </div>
@@ -292,7 +292,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* Title */}
         <div className="text-center mb-3">
-          <h2 className="text-xl tracking-widest text-black">
+          <h2 className="text-lg tracking-widest text-black">
             ADD YOUR NAME
           </h2>
         </div>
@@ -345,7 +345,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
               }
             }}
             placeholder="* MAXIMUM 10 CHARACTERS"
-            className="w-full px-4 py-3 border border-gray-300 text-center text-base placeholder-gray-400 focus:outline-none focus:border-black"
+            className="w-full px-4 py-2 border border-gray-300 text-center text-base placeholder-gray-400 focus:outline-none focus:border-black"
             style={{ fontSize: '16px' }}
             maxLength={10}
           />

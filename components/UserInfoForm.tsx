@@ -254,7 +254,7 @@ const renderField = (field: FormField) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-64 bg-black text-lg text-white py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
+              className="w-64 bg-black text-lg text-white py-2 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
             >
               {loading ? 'Sending OTP...' : 'SUBMIT'}
             </button>
