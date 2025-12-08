@@ -361,7 +361,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         )}
 
         {/* Action Buttons */}
-        <div className="px-6 pb-8 mt-auto space-y-3 flex justify-center">
+        <div className="px-6 pb-8 mt-auto flex flex-col justify-center gap-2">
           <button
             onClick={handleBack}
             className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest"
