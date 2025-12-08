@@ -198,7 +198,8 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-return (
+
+  return (
     <div className="max-w-2xl mx-auto p-6">
 
 
@@ -229,7 +230,7 @@ return (
           <p className="mb-3 text-black">PLEASE ENTER OTP</p>
 
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
             <div className="flex justify-center gap-2 mb-4 mx-4">
               {otp.map((digit, index) => (
                 <input
@@ -258,7 +259,7 @@ return (
             <button
               type="submit"
               disabled={loading || otp.join('').length !== 6}
-              className="w-64 flex items-center justify-center gap-2 py-2 text-xl bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
+              className="w-64 py-3 text-lg bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
             >
               {loading ? 'Verifying...' : 'SUBMIT'}
             </button>
@@ -278,7 +279,7 @@ return (
                 type="button"
                 onClick={handleResend}
                 disabled={loading}
-                className="w-full border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition text-sm underline"
+                className="w-64 border border-black text-black py-3 rounded-lg hover:bg-gray-100 transition text-sm underline"
               >
                 RESEND OTP
               </button>
