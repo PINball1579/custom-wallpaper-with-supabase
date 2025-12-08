@@ -259,7 +259,7 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
             <button
               type="submit"
               disabled={loading || otp.join('').length !== 6}
-              className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
+              className="w-64 flex items-center py-2 text-xl bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
             >
               {loading ? 'Verifying...' : 'SUBMIT'}
             </button>
