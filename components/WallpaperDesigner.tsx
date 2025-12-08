@@ -364,7 +364,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         <div className="px-6 pb-8 mt-auto flex flex-col items-center gap-4">
           <button
             onClick={handleBack}
-            className="flex items-center justify-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest hover:bg-gray-800 transition"
+            className="w-64 flex items-center justify-center gap-2 rounded-lg bg-black text-white py-2 text-xl tracking-widest hover:bg-gray-800 transition"
           >
             <img
               src="/chevron.png"
@@ -376,7 +376,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <button
             onClick={handleGenerate}
             disabled={!customText.trim()}
-            className="flex items-center justify-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest hover:bg-gray-800 disabled:bg-gray-400 transition"
+            className="w-64 flex items-center justify-center gap-2 rounded-lg bg-black text-white py-2 text-xl tracking-widest hover:bg-gray-800 disabled:bg-gray-400 transition"
           >
             SUBMIT
           </button>
