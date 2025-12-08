@@ -421,22 +421,26 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Header with close button */}
-        <div className="flex justify-between items-center pt-2 mb-8 px-4">
-          <div className="w-8"></div> {/* Spacer for centering */}
+        {/* Header */}
+        <div className="flex justify-center pt-2 mb-8">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
             className="h-12 w-auto object-contain"
           />
+        </div>
+
+        {/* White box container */}
+        <div className="bg-white rounded-2xl p-6 mb-6 relative" style={{ boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)' }}>
+          {/* Close button - top right inside box */}
           <button
             onClick={handleCloseComplete}
-            className="w-8 h-8 flex items-center justify-center text-black hover:text-gray-600 transition"
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-black hover:text-gray-600 transition"
             aria-label="Close"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
+              className="h-7 w-7"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -449,12 +453,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
               />
             </svg>
           </button>
-        </div>
 
-        {/* White box container */}
-        <div className="bg-white rounded-2xl p-6 mb-6" style={{ boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)' }}>
           {/* Title */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-6 mt-2">
             <h2 className="text-lg font-normal tracking-widest text-black">
               YOUR WALLPAPER IS READY
             </h2>
