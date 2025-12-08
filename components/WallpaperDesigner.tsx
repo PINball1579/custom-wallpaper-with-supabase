@@ -159,7 +159,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     return (
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header with DIOR logo */}
-        <div className="flex justify-center pt-12 pb-8">
+        <div className="flex justify-center pt-6 pb-8">
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
@@ -286,7 +286,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-16 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </div>
 
@@ -394,7 +394,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-16 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </div>
 
@@ -426,7 +426,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <img
             src="/Dior-Logo.png"
             alt="DIOR"
-            className="h-16 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </div>
 
