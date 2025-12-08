@@ -86,13 +86,13 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
       }
 
       setGeneratedImage(data.image);
-      
+
       // Automatically try to send to LINE
       await sendToLine(data.imageBuffer);
-      
+
       // Move to complete step
       setStep('complete');
-      
+
     } catch (err: any) {
       console.error('Error generating wallpaper:', err);
       setError(err.message || 'Failed to generate wallpaper');
@@ -160,9 +160,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header with DIOR logo */}
         <div className="flex justify-center pt-12 pb-8">
-          <img 
-            src="/Dior-Logo.png" 
-            alt="DIOR" 
+          <img
+            src="/Dior-Logo.png"
+            alt="DIOR"
             className="h-16 w-auto object-contain"
           />
         </div>
@@ -209,7 +209,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </button>
         </div>
 
-{/* Wallpaper carousel with 4 options */}
+        {/* Wallpaper carousel with 4 options */}
         <div className="px-6 mb-8">
           <div className="relative flex items-center justify-center gap-4">
             {/* Left Arrow */}
@@ -217,9 +217,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
               onClick={handlePrevWallpapers}
               className="flex-shrink-0"
             >
-              <img 
-                src="/chevron.png" 
-                alt="Previous" 
+              <img
+                src="/chevron.png"
+                alt="Previous"
                 className="w-8 h-8 rotate-90"
               />
             </button>
@@ -230,11 +230,10 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 <button
                   key={id}
                   onClick={() => setSelectedWallpaper(id)}
-                  className={`aspect-[9/16] rounded overflow-hidden border transition ${
-                    selectedWallpaper === id
+                  className={`aspect-[9/16] rounded overflow-hidden border transition ${selectedWallpaper === id
                       ? 'border-2 border-black'
                       : 'border border-gray-300'
-                  }`}
+                    }`}
                 >
                   <img
                     src={`/wallpapers/${id}.jpg`}
@@ -250,9 +249,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
               onClick={handleNextWallpapers}
               className="flex-shrink-0"
             >
-              <img 
-                src="/chevron.png" 
-                alt="Next" 
+              <img
+                src="/chevron.png"
+                alt="Next"
                 className="w-8 h-8 -rotate-90"
               />
             </button>
@@ -260,13 +259,18 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* NEXT Button */}
-        <div className="px-6 pb-8 mt-auto">
+        <div className="px-6 pb-8 mt-auto flex justify-center">
           <button
             onClick={handleNext}
             disabled={!selectedWallpaper}
-            className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest disabled:bg-gray-400"
+            className="flex items-center gap-2 bg-black text-white px-12 py-4 text-sm font-medium tracking-widest disabled:bg-gray-400"
           >
-            NEXT &gt;
+            NEXT
+            <img
+              src="/chevron.png"
+              alt="Next"
+              className="w-4 h-4 -rotate-90"
+            />
           </button>
         </div>
       </div>
@@ -279,9 +283,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header */}
         <div className="flex justify-center pt-12 pb-8">
-          <img 
-            src="/Dior-Logo.png" 
-            alt="DIOR" 
+          <img
+            src="/Dior-Logo.png"
+            alt="DIOR"
             className="h-16 w-auto object-contain"
           />
         </div>
@@ -381,18 +385,18 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center">
         <div className="flex justify-center mb-8">
-          <img 
-            src="/Dior-Logo.png" 
-            alt="DIOR" 
+          <img
+            src="/Dior-Logo.png"
+            alt="DIOR"
             className="h-16 w-auto object-contain"
           />
         </div>
-        
+
         <div className="text-center mb-8">
           <h2 className="text-lg font-normal tracking-widest text-black mb-8">
             IN PROGRESS......
           </h2>
-          
+
           {/* Animated loading spinner */}
           <div className="relative w-24 h-24 mx-auto">
             <div className="absolute inset-0">
@@ -412,9 +416,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <div className="flex justify-center pt-12 pb-8">
-        <img 
-          src="/Dior-Logo.png" 
-          alt="DIOR" 
+        <img
+          src="/Dior-Logo.png"
+          alt="DIOR"
           className="h-16 w-auto object-contain"
         />
       </div>
@@ -451,7 +455,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
       )}
 
-{/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
+      {/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
       <div className="px-6 pb-8 mt-auto">
         <button
           onClick={() => liff.closeWindow()}
