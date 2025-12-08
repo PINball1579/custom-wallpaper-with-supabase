@@ -169,7 +169,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* Title */}
         <div className="text-center mb-6">
-          <h2 className="text-base font-normal tracking-widest text-black">
+          <h2 className="text-xl tracking-widest text-black">
             CHOOSE A WALLPAPER PATTERN
           </h2>
         </div>
@@ -204,7 +204,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* DESIGN WALLPAPER button */}
         <div className="px-6 mb-8">
-          <button className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest">
+          <button className="w-full bg-black text-white py-4 text-xl font-medium tracking-widest">
             DESIGN WALLPAPER
           </button>
         </div>
@@ -231,8 +231,8 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                   key={id}
                   onClick={() => setSelectedWallpaper(id)}
                   className={`aspect-[9/16] rounded overflow-hidden border transition ${selectedWallpaper === id
-                      ? 'border-2 border-black'
-                      : 'border border-gray-300'
+                    ? 'border-2 border-black'
+                    : 'border border-gray-300'
                     }`}
                 >
                   <img
@@ -263,7 +263,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <button
             onClick={handleNext}
             disabled={!selectedWallpaper}
-            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-4 text-xl font-medium tracking-widest disabled:bg-gray-400"
+            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-2 text-xl tracking-widest disabled:bg-gray-400"
           >
             NEXT
             <img
@@ -292,7 +292,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* Title */}
         <div className="text-center mb-6">
-          <h2 className="text-base font-normal tracking-widest text-black">
+          <h2 className="text-xl tracking-widest text-black">
             ADD YOUR NAME
           </h2>
         </div>
@@ -328,7 +328,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
 
         {/* ADD YOUR NAME button */}
         <div className="px-6 mb-6">
-          <button className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest">
+          <button className="w-full bg-black text-white py-4 text-xl tracking-widest">
             ADD YOUR NAME
           </button>
         </div>
@@ -364,14 +364,19 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         <div className="px-6 pb-8 mt-auto space-y-3">
           <button
             onClick={handleBack}
-            className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest"
+            className="flex items-center gap-2 w-full bg-black text-white px-16 py-2 text-xl tracking-widest"
           >
-            &lt; BACK
+            BACK
+            <img
+              src="/chevron.png"
+              alt="Next"
+              className="w-6 h-6 -rotate-90 invert"
+            />
           </button>
           <button
             onClick={handleGenerate}
             disabled={!customText.trim()}
-            className="w-full bg-black text-white py-4 text-sm font-medium tracking-widest disabled:bg-gray-400"
+            className="w-full bg-black text-white px-16 py-2 text-xl tracking-widest disabled:bg-gray-400"
           >
             SUBMIT
           </button>
