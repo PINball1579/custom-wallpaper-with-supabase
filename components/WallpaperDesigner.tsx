@@ -210,54 +210,55 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* Wallpaper carousel with 4 options */}
-        <div className="px-6 mb-8">
-          <div className="relative max-w-2xl mx-auto">
-            {/* Left Arrow */}
-            <button
-              onClick={handlePrevWallpapers}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 w-10 h-10 flex items-center justify-center"
-            >
-              <img
-                src="/chevron.png"
-                alt="Previous"
-                className="w-4 h-4 rotate-180"
-              />
-            </button>
+<div className="px-6 mb-8">
+  <div className="relative max-w-2xl mx-auto px-6"> {/* extra horizontal padding gives room for chevrons */}
+    {/* Left Arrow - moved further left and bigger */}
+    <button
+      onClick={handlePrevWallpapers}
+      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 w-10 h-10 flex items-center justify-center"
+      aria-label="Previous wallpapers"
+    >
+      <img
+        src="/chevron.png"
+        alt="Previous"
+        className="w-6 h-6 rotate-180"
+      />
+    </button>
 
-            {/* Right Arrow */}
-            <button
-              onClick={handleNextWallpapers}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 w-10 h-10 flex items-center justify-center"
-            >
-              <img
-                src="/chevron.png"
-                alt="Next"
-                className="w-4 h-4"
-              />
-            </button>
+    {/* Right Arrow - moved further right and bigger */}
+    <button
+      onClick={handleNextWallpapers}
+      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 w-10 h-10 flex items-center justify-center"
+      aria-label="Next wallpapers"
+    >
+      <img
+        src="/chevron.png"
+        alt="Next"
+        className="w-6 h-6"
+      />
+    </button>
 
+    {/* 4 Wallpapers Row - smaller thumbnails with space around them */}
+    <div className="flex items-center justify-between gap-4">
+      {visibleWallpapers.map((id) => (
+        <button
+          key={id}
+          onClick={() => setSelectedWallpaper(id)}
+          className={`w-20 aspect-[9/16] rounded-lg overflow-hidden border-2 transition flex-shrink-0 ${
+            selectedWallpaper === id ? 'border-black ring-2 ring-black' : 'border-gray-200'
+          }`}
+        >
+          <img
+            src={`/wallpapers/${id}.jpg`}
+            alt={`Wallpaper ${id}`}
+            className="w-full h-full object-cover"
+          />
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
 
-            {/* 4 Wallpapers Grid */}
-            <div className="grid grid-cols-4 gap-3">
-              {visibleWallpapers.map((id) => (
-                <button
-                  key={id}
-                  onClick={() => setSelectedWallpaper(id)}
-                  className={`aspect-[9/16] rounded-lg overflow-hidden border-2 transition ${selectedWallpaper === id
-                      ? 'border-black ring-2 ring-black'
-                      : 'border-gray-200'
-                    }`}
-                >
-                  <img
-                    src={`/wallpapers/${id}.jpg`}
-                    alt={`Wallpaper ${id}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* NEXT Button */}
         <div className="px-6 pb-8 mt-auto">
