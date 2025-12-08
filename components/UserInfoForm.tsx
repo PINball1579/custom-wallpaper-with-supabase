@@ -174,7 +174,7 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="bg-white rounded-lg px-6">
         <div className="text-center">
           <div className="flex justify-center">
             <img src="/Dior-Logo.png" alt="DIOR" className="h-20 w-auto object-contain" />
