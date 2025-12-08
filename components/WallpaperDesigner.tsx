@@ -431,7 +431,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         </div>
 
         {/* White box container */}
-        <div className="bg-white rounded-2xl shadow-2xl p-6 mb-6">
+        <div className="bg-white rounded-2xl p-6 mb-6" style={{ boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)' }}>
           {/* Title */}
           <div className="text-center mb-6">
             <h2 className="text-lg font-normal tracking-widest text-black">
@@ -464,7 +464,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
         {/* GO TO THE CHAT WINDOW TO DOWNLOAD Button */}
         <button
           onClick={() => liff.closeWindow()}
-          className="w-full bg-black text-white py-4 rounded-lg text-base font-medium tracking-widest hover:bg-gray-900 transition"
+          className="w-full bg-black text-white py-4 rounded-lg text-sm font-medium tracking-widest hover:bg-gray-900 transition"
         >
           GO TO THE CHAT WINDOW TO DOWNLOAD
         </button>
