@@ -33,7 +33,7 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
         {/* Design Wallpaper Button */}
         <button
           onClick={onContinue}
-          className="w-full bg-black text-white py-4 rounded-xl text-sm font-medium tracking-wider hover:bg-gray-900 transition-colors"
+          className="w-full bg-black text-white py-2 rounded-xl text-2xl tracking-wider hover:bg-gray-900 transition-colors"
         >
           DESIGN WALLPAPER
         </button>

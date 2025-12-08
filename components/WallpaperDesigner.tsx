@@ -263,13 +263,13 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           <button
             onClick={handleNext}
             disabled={!selectedWallpaper}
-            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-4 text-sm font-medium tracking-widest disabled:bg-gray-400"
+            className="flex items-center gap-2 rounded-lg bg-black text-white px-16 py-4 text-xl font-medium tracking-widest disabled:bg-gray-400"
           >
             NEXT
             <img
               src="/chevron.png"
               alt="Next"
-              className="w-4 h-4 -rotate-90 invert"
+              className="w-6 h-6 -rotate-90 invert"
             />
           </button>
         </div>
