@@ -333,7 +333,7 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </button>
         </div>
 
-        {/* Input field */}
+{/* Input field */}
         <div className="px-6 mb-8">
           <input
             type="text"
@@ -344,8 +344,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
                 setCustomText(value);
               }
             }}
-            placeholder="*MAXIMUM 10 CHARACTERS"
-            className="w-full px-4 py-3 border border-gray-300 text-center text-sm placeholder-gray-400 focus:outline-none focus:border-black"
+            placeholder="* MAXIMUM 10 CHARACTERS"
+            className="w-full px-4 py-3 border border-gray-300 text-center text-base placeholder-gray-400 focus:outline-none focus:border-black"
+            style={{ fontSize: '16px' }}
             maxLength={10}
           />
           {/* Character counter */}
