@@ -210,7 +210,7 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
 
 
       {/* Content starts from top, not centered */}
-      <div className="mt-8">
+      <div className="mt-10">
         <div className="text-center flex flex-col items-center">
           <p className="text-black text-xl mb-4">PHONE NUMBER VERIFICATION</p>
           <p className="text-sm text-black mb-2">
@@ -259,7 +259,7 @@ export default function OTPVerification({ phoneNumber, referenceCode, onVerified
             <button
               type="submit"
               disabled={loading || otp.join('').length !== 6}
-              className="w-64 py-3 text-lg bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
+              className="w-64 py-2 text-lg bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition mb-3"
             >
               {loading ? 'Verifying...' : 'SUBMIT'}
             </button>
