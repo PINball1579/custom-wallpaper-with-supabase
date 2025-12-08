@@ -138,7 +138,7 @@ export default function UserInfoForm({ lineUserId, onSubmit }: UserInfoFormProps
 const renderField = (field: FormField) => {
     const inputClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black';
     const selectClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10';
-    const dateClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10';
+    const dateClasses = 'w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-black text-black border-black appearance-none bg-white pr-10 text-left';
 
     return (
       <div key={field.name}>
@@ -205,7 +205,7 @@ const renderField = (field: FormField) => {
             <img src="/Dior-Logo.png" alt="DIOR" className="h-20 w-auto object-contain" />
           </div>
         </div>
-        <p className="text-sm text-black mb-4">REQUIRED INFORMATION</p>
+        <p className="text-sm text-black mb-4">REQUIRED INFORMATION<span className="text-red-600 ml-1">*</span></p>
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
