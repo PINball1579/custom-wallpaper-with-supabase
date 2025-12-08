@@ -17,14 +17,14 @@ export default function ConnectedWithDior({ onContinue }: ConnectedWithDiorProps
             <img 
               src="/Dior-Logo.png" 
               alt="DIOR" 
-              className="h-24 w-auto object-contain"
+              className="h-28 w-auto object-contain"
             />
           </div>
         </div>
 
         {/* Description Text */}
         <div className="py-8">
-          <p className="text-sm text-gray-700 leading-relaxed">
+          <p className="text-sm text-black leading-relaxed">
             ENJOY A UNIQUE EXPERIENCE WITH<br />
             OUR CAPTIVATING WALLPAPER DESIGNS
           </p>
