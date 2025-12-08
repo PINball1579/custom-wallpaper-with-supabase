@@ -143,14 +143,14 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
     }
   };
 
-  const handleCreateAnother = () => {
-    setStep('select');
-    setSelectedWallpaper('');
-    setCustomText('');
-    setGeneratedImage('');
-    setError('');
-    setSuccessMessage('');
-  };
+  // const handleCreateAnother = () => {
+  //   setStep('select');
+  //   setSelectedWallpaper('');
+  //   setCustomText('');
+  //   setGeneratedImage('');
+  //   setError('');
+  //   setSuccessMessage('');
+  // };
 
   // Step 1: Wallpaper Selection
   if (step === 'select') {
@@ -189,9 +189,9 @@ export default function WallpaperDesigner({ lineUserId }: WallpaperDesignerProps
           </div>
         </div>
 
-        {/* Single large preview wallpaper */}
-        <div className="px-6 mb-8">
-          <div className="max-w-sm mx-auto">
+{/* Single large preview wallpaper - Smaller size to match design */}
+        <div className="px-6 mb-6">
+          <div className="max-w-[280px] mx-auto">
             <div className="aspect-[9/16] rounded-lg overflow-hidden shadow-lg">
               <img
                 src={`/wallpapers/${selectedWallpaper || wallpapers[0]}.jpg`}
